@@ -169,7 +169,7 @@ class Help(commands.Cog):
             name="Available Commands",
             value=(
                 "`help` `ping` `avatar` `banner` `userinfo` `serverinfo`\n"
-                "`autoresponder` `removeresponder` `listresponders`\n"
+                "`autoresponder` `removeresponder` `userinfo` `listresponders`\n"
                 "`coinflip` `emojiinfo` `8ball`"
             ),
             inline=False,
