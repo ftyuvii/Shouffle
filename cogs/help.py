@@ -168,9 +168,11 @@ class Help(commands.Cog):
         embed2.add_field(
             name="Available Commands",
             value=(
-                "`help` `ping` `avatar` `banner` `userinfo` `serverinfo`\n"
-                "`autoresponder` `removeresponder` `userinfo` `listresponders`\n"
-                "`coinflip` `emojiinfo` `8ball`"
+                "ping, uptime, botinfo, serverinfo, roleinfo, membercount, inviteinfo, "
+    "avatar, banner, say, embed, roll, coinflip, choose, poll, 8ball, "
+    "calculate, snipe, steal, emojiinfo, afk, afkremove, stick, stickremove, "
+    "autoresponder, removeresponder, listresponders, mediaonly, unmediaonly, etc "
+    "gcreate, gend, greroll"
             ),
             inline=False,
         )
@@ -183,7 +185,7 @@ class Help(commands.Cog):
         embed3.add_field(
             name="Available Commands",
             value=(
-                "`mute` `unmute` `kick` `softban` `ban` `unban`\n"
+                 "`mute` `unmute` `kick` `softban` `ban` `unban`\n"
                 "`warn` `uwarn` `clearwarns` `purge`\n"
                 "`mediaonly` `unmediaonly` `roleadd` `roleremove`\n"
                 "`deafen` `undeafen` `vcban` `say`"
@@ -200,7 +202,7 @@ class Help(commands.Cog):
             name="Setup & Core Settings",
             value=(
                 "`welcomesetup` `welcomechannel` `testwelcome`\n"
-                "`welcomeconfig` `roleall` *(more coming soon)*"
+                "`welcomeconfig` `ticketsetup` `ticketconfig` `botslogs enable` `botlogsdisable` *(more coming soon)*"
             ),
             inline=False,
         )
