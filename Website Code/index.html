@@ -3,135 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shouffle - Discord Bot Dashboard</title>
+    <title>Shouffle - Webpage</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <aside>
-        <div>
-            <h2>Shouffle</h2>
-        </div>
-        <nav>
-            <ul>
-                <li class="active"><a href="#home">Dashboard</a></li>
-                <li><a href="#stats">Statistics</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#commands">Commands</a></li>
-                <li><a href="#docs">Documentation</a></li>
-            </ul>
-        </nav>
-        <div>
-            <a href="https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot&permissions=8" target="_blank">Invite Bot</a>
-        </div>
-    </aside>
-    <main>
-        <header>
-            <div>
-                <h3>Shouffle Dashboard</h3>
+
+    <div class="main-container">
+        
+        <header class="hero-section">
+            <div class="bot-mascot">
+                <img src="https://i.ibb.co/TxY83FLZ/f78aa6c969dd76df0b0ad5c501059060.jpg alt="Shouffle Mascot">
             </div>
-            
+            <h1 class="bot-title">shouffle bot</h1>
+            <p class="bot-subtitle">the ultimate aesthetic companion™</p>
         </header>
-        <section id="home">
-            <span>Discord Server Management</span>
-            <h1>Powerful Moderation, Tickets & Automation</h1>
-            <p>Manage your Discord community with moderation, tickets, welcome systems, autoroles, logging and advanced automod.</p>
-            <div>
-                <a href="https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot&permissions=8" target="_blank">Invite Bot</a>
-                <a href="https://discord.gg/YOUR_INVITE_CODE" target="_blank">Support Server</a>
-                <a href="#docs">Beginner Guide</a>
-            </div>
-        </section>
-        <section id="stats">
-            <div>
-                <h2>10,000+</h2>
-                <p>Users</p>
-            </div>
-            <div>
-                <h2>25+</h2>
-                <p>Servers</p>
-            </div>
-            <div>
-                <h2>99.9%</h2>
-                <p>Uptime</p>
-            </div>
-            <div>
-                <h2>24/7</h2>
-                <p>Support</p>
-            </div>
-        </section>
-        <section id="features">
-            <h2>Features</h2>
-            <div>
-                <article>
-                    <h3>Moderation</h3>
-                    <p>Warn, mute, kick and ban users easily.</p>
-                </article>
-                <article>
-                    <h3>Automod</h3>
-                    <p>Automatic spam and abuse protection.</p>
-                </article>
-                <article>
-                    <h3>Tickets</h3>
-                    <p>Professional support ticket system.</p>
-                </article>
-                <article>
-                    <h3>Welcome System</h3>
-                    <p>Greet new members automatically.</p>
-                </article>
-                <article>
-                    <h3>Autorole</h3>
-                    <p>Assign roles when members join.</p>
-                </article>
-                <article>
-                    <h3>Logging</h3>
-                    <p>Track server activities and events.</p>
-                </article>
-            </div>
-        </section>
-        <section id="commands">
-            <h2>Popular Commands</h2>
-            <div>
-                <div>
-                    <h4>?help</h4>
-                    <p>View all available commands.</p>
+
+        <nav class="nav-links-container">
+            <a href="https://discord.com/channels/1514530035112083597/1514547950527975515" class="nav-item">
+                <div class="nav-icon green-bg"><img src="https://i.ibb.co/W43sXp0j/20260617-002445.png" alt="status"></div>
+                <span>status</span>
+            </a>
+            
+            <a href="https://shouffle.mintlify.app/" class="nav-item">
+                <div class="nav-icon pink-bg"><img src="https://i.ibb.co/TqJqdrXs/20260617-001830.png" alt="commands"></div>
+                <span>commands + docs</span>
+            </a>
+            
+            <a href="https://discord.com/oauth2/authorize?client_id=1513458201130045510" class="nav-item">
+                <div class="nav-icon yellow-bg"><img src="https://i.ibb.co/LdVLRkQG/20260617-002028.png" alt="donate"></div>
+                <span>donate</span>
+            </a>
+            
+            <a href="https://discord.gg/Gfm2RXKNew" class="nav-item">
+                <div class="nav-icon peach-bg"><img src="https://i.ibb.co/TxPGcswZ/20260617-001614.png" alt="support"></div>
+                <span>support</span>
+            </a>
+            
+            <a href="https://discord.com/oauth2/authorize?client_id=1513458201130045510" class="nav-item full-width-item">
+                <div class="nav-icon purple-bg"><img src="https://i.ibb.co/ks7Mtp15/20260617-002648.png" alt="invite"></div>
+                <span>invite</span>
+            </a>
+            
+        </nav>
+
+        <section class="acknowledgements-card">
+            <h2 class="section-title">acknowledgements</h2>
+            
+            <div class="developer-info">
+                <p class="dev-meta">developed with ♡ by</p>
+                <div class="dev-avatar">
+                    <imx src="https://i.ibb.co/ks7Mtp15/20260617-002648.png" alt="Developer Avatar">
                 </div>
-                <div>
-                    <h4>?ticket create</h4>
-                    <p>Create a support ticket.</p>
+                <h3 class="dev-name">Yuvraj Ab</h3>
+            </div>
+
+            <div class="credits-list">
+                <div class="credit-group">
+                    <h4>Special Thanks</h4>
+                    <p>To our early supporters who trusted our bot. Shouffle is already operating in 30+ Discord server </p>
                 </div>
-                <div>
-                    <h4>?automod enable</h4>
-                    <p>Enable automoderation.</p>
-                </div>
-                <div>
-                    <h4>?autorole @role</h4>
-                    <p>Set automatic join roles.</p>
+                
+                <div class="credit-group">
+                    <h4>Contributers</h4>
+                    <p>Thank you all my friends for supporting in early phase you always have a place in my heart for this project such as rikky, Aadi thakur, Dev sangwan and Shivansh </p>
                 </div>
             </div>
         </section>
-        <section id="docs">
-            <h2>Documentation</h2>
-            <p>Learn how to configure and use every feature of Shouffle.</p>
-            <a href="#">Read Documentation</a>
-        </section>
-        <section id="support">
-            <h2>Ready to improve your server?</h2>
-            <p>Invite Shouffle and start managing your community professionally.</p>
-            <a href="https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot&permissions=8" target="_blank">Invite Shouffle</a>
-        </section>
-        <footer>
-            <div>
-                <h3>Shouffle</h3>
-                <p>Discord Server Management Bot</p>
-            </div>
-            <div>
-                <a href="https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot&permissions=8" target="_blank">Invite</a>
-                <a href="https://discord.gg/YOUR_INVITE_CODE" target="_blank">Support</a>
-                <a href="#docs">Guide</a>
-            </div>
-            <p>© 2026 Shouffle. All rights reserved.</p>
+
+        <footer class="footer-text">
+            <p>© copyright 2026 @shouffle.bot | all rights reserved</p>
         </footer>
-    </main>
-    <script src="script.js"></script>
+
+    </div>
+
 </body>
 </html>
