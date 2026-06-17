@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shouffle Bot | Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe3ec 100%);
+            background-attachment: fixed;
+            color: #7a5f59;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 30px;
+            border-radius: 32px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.2);
+        }
+
+        .bot-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #fff;
+            padding: 5px;
+            border: 4px solid #ffb6c1;
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.3);
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.8rem;
+            color: #ff8da1;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #b08d86;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .prefix-badge {
+            display: inline-block;
+            background-color: #fff0f3;
+            color: #ff6584;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: 1px solid #ffe0e6;
+        }
+
+        /* Navigation Sidebar/Tabs alternative: Smooth categories */
+        .categories-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .cat-btn {
+            background: rgba(255, 255, 255, 0.8);
+            color: #7a5f59;
+            padding: 10px 20px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .cat-btn:hover {
+            transform: translateY(-2px);
+            background: #fff;
+            border-color: #ffb6c1;
+            color: #ff6584;
+        }
+
+        /* Section Styling */
+        .section-card {
+            background: rgba(255, 255, 255, 0.75);
+            border-radius: 32px;
+            padding: 35px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(164, 129, 122, 0.04);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .section-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            color: #ff8da1;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px dashed #ffe0e6;
+            padding-bottom: 10px;
+        }
+
+        /* Custom Grid/Flex for Commands - Soft & Aesthetic */
+        .command-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .command-item {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 18px;
+            padding: 18px 22px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .command-item:hover {
+            background: #ffffff;
+            transform: translateX(4px);
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.15);
+            border-color: #ffb6c1;
+        }
+
+        .command-trigger {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.15rem;
+            color: #5c7b93; /* Smooth contrasting soft blue */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .command-trigger::before {
+            content: "✨";
+            font-size: 0.9rem;
+        }
+
+        .command-desc {
+            font-size: 0.92rem;
+            color: #8c716b;
+            font-weight: 500;
+        }
+
+        /* Color Adjustments for categories */
+        .utility-sec h2 { color: #8faec4; border-color: #e2eef7; }
+        .utility-sec .command-trigger { color: #5c7b93; }
+        
+        .mod-sec h2 { color: #ff8da1; border-color: #ffe0e6; }
+        .mod-sec .command-trigger { color: #e06d81; }
+
+        .config-sec h2 { color: #bca0dc; border-color: #f0e6fa; }
+        .config-sec .command-trigger { color: #9471be; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #b08d86;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Header Section -->
+        <header>
+            <!-- User can swap this image path with their real bot avatar -->
+            <img class="bot-logo" src="https://i.ibb.co/TxY83FLZ/f78aa6c969dd76df0b0ad5c501059060.jpg" alt="Shouffle Bot Logo">
+            <h1>Shouffle docs</h1>
+            <p class="subtitle">Hello! Thanks for coming on my documentation. I am developed by Yuvraj Ab, We are focusing on maintaining a aesthetics behind a technical project. Shouffle was founded in 2 June 2026 with purpose of growing and connecting with soft communities and we are still developing shouffle to make it easy-to-use for beginners. I hope you love my docs all the existing commands are listed bellow </p>
+            <div class="prefix-badge">Triggers: /command or ?command</div>
+        </header>
+
+        <!-- Category Quick Links -->
+        <div class="categories-nav">
+            <a href="#general" class="cat-btn">☁️ General & Utility</a>
+            <a href="#moderation" class="cat-btn">🛡️ Moderation</a>
+            <a href="#config" class="cat-btn">⚙️ Server Setup & Config</a>
+        </div>
+
+        <!-- GENERAL & UTILITY SECTION -->
+        <section id="general" class="section-card utility-sec">
+            <h2>general & utility</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <div class="command-trigger">ping</div>
+                    <div class="command-desc">Tests the connection speed between Discord and Shouffle.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">uptime</div>
+                    <div class="command-desc">Shows how long Shouffle has been online without interruption.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">botinfo</div>
+                    <div class="command-desc">Displays details about Shouffle, including statistics and build info.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">serverinfo</div>
+                    <div class="command-desc">Provides a neat breakdown of the server's owner, age, and features.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">roleinfo</div>
+                    <div class="command-desc">Shows deep configurations, permissions, and settings for a specific role.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">membercount</div>
+                    <div class="command-desc">Counts the total number of real users and automated bots in the server.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">inviteinfo</div>
+                    <div class="command-desc">Analyzes a server invite link to find its origin and creator details.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">emojiinfo</div>
+                    <div class="command-desc">Reveals ID codes and direct image assets for any server emoji.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">stick</div>
+                    <div class="command-desc">Pins a chosen text to the absolute bottom of a text channel dynamically.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">stickremove</div>
+                    <div class="command-desc">Removes the current active sticky message from the channel.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">autoresponder</div>
+                    <div class="command-desc">Sets up Shouffle to automatically reply to custom keyword phrase triggers.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">removeresponder</div>
+                    <div class="command-desc">Deletes an active autoresponder keyword from the server's trigger list.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">listresponders</div>
+                    <div class="command-desc">Displays all custom auto-replies currently active in the server registry.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">say</div>
+                    <div class="command-desc">Forces the bot to mirror and say exactly what text you type out.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">embed</div>
+                    <div class="command-desc">Builds stylized, structured text blocks utilizing rich card layouts.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">roll</div>
+                    <div class="command-desc">Generates a completely randomized dice roll outcome for mini-games.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">coinflip</div>
+                    <div class="command-desc">Flips a virtual coin to quickly settle simple server choices (Heads/Tails).</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">choose</div>
+                    <div class="command-desc">Randomly chooses an option out of multiple choices provided by you.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">8ball</div>
+                    <div class="command-desc">Answers your questions with random fortune-telling logic outcomes.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">calculate</div>
+                    <div class="command-desc">Acts as a direct mathematical tool solver inside the chat interface.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">snipe</div>
+                    <div class="command-desc">Instantly displays the content of the last deleted message in the channel.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">steal</div>
+                    <div class="command-desc">Clones and adds external custom emojis or stickers to your server registry.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">avatar</div>
+                    <div class="command-desc">Grabs and links the high-resolution profile icon of any designated user.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">banner</div>
+                    <div class="command-desc">Grabs and links the high-resolution background banner card layout of a user.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">afk</div>
+                    <div class="command-desc">Sets a custom status notice when you are away to tag any mentions.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">afkremove</div>
+                    <div class="command-desc">Clears your active AFK placeholder status immediately upon returning.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">poll</div>
+                    <div class="command-desc">Creates a custom public reaction poll for members to quickly cast votes.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODERATION SECTION -->
+        <section id="moderation" class="section-card mod-sec">
+            <h2>moderation operations</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <div class="command-trigger">mute</div>
+                    <div class="command-desc">Applies a text and voice channel timeout block to a target member profile.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">unmute</div>
+                    <div class="command-desc">Removes any active mute timeout restrictions on a moderated profile.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">kick</div>
+                    <div class="command-desc">Removes a target user from the server space while leaving an open rejoin route.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">softban</div>
+                    <div class="command-desc">Bans and instantly unbans a user to wipe their recent message history.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">ban</div>
+                    <div class="command-desc">Permanently restricts a user ID layout from entering the server space.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">unban</div>
+                    <div class="command-desc">Pulls a user ID out of the server's central ban ledger registry.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">warn</div>
+                    <div class="command-desc">Logs a recorded infraction point on a user profile for rule tracking.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">clearwarns</div>
+                    <div class="command-desc">Resets and deletes all logged history warning records for a user.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">purge</div>
+                    <div class="command-desc">Deletes an exact specified number block of text messages from chat quickly.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">mediaonly</div>
+                    <div class="command-desc">Locks down channels to automatically drop messages devoid of links or attachments.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">unmediaonly</div>
+                    <div class="command-desc">Reverts chat rules to allow normal mix of files and text strings freely.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">roleadd</div>
+                    <div class="command-desc">Assigns an existing server group role directly to a member's profile.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">roleremove</div>
+                    <div class="command-desc">Strips down an active server group role identity off a profile target.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">deafen</div>
+                    <div class="command-desc">Mutes all audio reception for a user inside active voice chats.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">undeafen</div>
+                    <div class="command-desc">Restores regular voice listening capabilities for a deafened user.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">vcban</div>
+                    <div class="command-desc">Disconnects and blocks a user profile from logging into voice channels.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONFIG SECTION -->
+        <section id="config" class="section-card config-sec">
+            <h2>server setups & config</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <div class="command-trigger">welcomesetup</div>
+                    <div class="command-desc">Launches an interactive prompt assistant tool to initialize greeting scripts.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">welcomechannel</div>
+                    <div class="command-desc">Designates the specific text channel location where join cards will post.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">welcometest</div>
+                    <div class="command-desc">Simulates a fake member entry block to check text rendering alignments.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">welcomeconfig</div>
+                    <div class="command-desc">Reviews deep configuration variables set up for your active welcome setups.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">ticketsetup</div>
+                    <div class="command-desc">Deploys automated support interactive panels for staff-user communication.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">ticketconfig</div>
+                    <div class="command-desc">Configures access groups, tracking categories, and logging endpoints for tickets.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">autorole</div>
+                    <div class="command-desc">Saves roles that Shouffle will auto-assign directly as new users land.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">botlogs enable</div>
+                    <div class="command-desc">Enables extensive background server action auditing ledger hooks.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-trigger">botlogs disable</div>
+                    <div class="command-desc">Deactivates background logging and text change channel notifications.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© copyright 2026 @shouffle.bot | all rights reserved</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
