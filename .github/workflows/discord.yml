@@ -7,16 +7,19 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Discord Message
+      - name: Send Discord Embed
         run: |
           curl -H "Content-Type: application/json" \
           -d "{
-            \"content\": \"📦 New commit pushed to repo!\",
             \"embeds\": [
               {
-                \"title\": \"Commit Update\",
+                \"title\": \"New Commit\",
                 \"description\": \"${{ github.event.head_commit.message }}\",
-                \"url\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}\"
+                \"url\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}\",
+                \"thumbnail\": {
+                  \"url\": \"https://github.com/${{ github.actor }}.png\"
+                },
+                \"color\": 5814783
               }
             ]
           }" \
