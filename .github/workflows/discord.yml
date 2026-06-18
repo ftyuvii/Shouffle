@@ -8,6 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Fetch Current GitHub Profile Picture
+        id: get_pfp
+        run: |
+          # Real-time fresh avatar URL fetch karne ke liye API call
+          AVATAR_URL=$(curl -s "https://api.github.com/users/${{ github.actor }}" | jq -r '.avatar_url')
+          echo "pfp_url=$AVATAR_URL" >> $GITHUB_OUTPUT
+
       - name: Send Discord Webhook
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
@@ -16,8 +23,7 @@ jobs:
           ACTOR: ${{ github.actor }}
           REPO: ${{ github.repository }}
           BRANCH: ${{ github.ref_name }}
-          # Fetching direct avatar URL cleanly
-          AVATAR_URL: https://github.com/${{ github.actor }}.png
+          AVATAR_URL: ${{ steps.get_pfp.outputs.pfp_url }}
 
         run: |
           payload=$(jq -n \
@@ -29,35 +35,16 @@ jobs:
             --arg branch "$BRANCH" \
             '{
               embeds: [{
-                title: "🌸 New Commit Pushed! 🌸",
-                url: $commit_url,
-                color: 16757683,
+                color: 16758465,
                 author: {
                   name: $actor,
                   icon_url: $avatar_url,
                   url: ("https://github.com/" + $actor)
                 },
-                description: ("**Message:**\n```\n" + $commit_msg + "\n```\n✨ [View Commit on GitHub](" + $commit_url + ")"),
+                description: ("🌸 **New Commit in** `" + $repo + "` [" + $branch + "]\n\n" + $commit_msg + "\n\n✨ [View Commit](" + $commit_url + ")"),
                 thumbnail: {
                   url: $avatar_url
-                },
-                fields: [
-                  {
-                    name: "📂 Repository",
-                    value: ("`" + $repo + "`"),
-                    inline: true
-                  },
-                  {
-                    name: "🌿 Branch",
-                    value: ("`" + $branch + "`"),
-                    inline: true
-                  }
-                ],
-                footer: {
-                  text: "GitHub Actions • Kawaii Notifier",
-                  icon_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                },
-                timestamp: (now | strflocaltime("%Y-%m-%dT%H:%M:%SZ"))
+                }
               }]
             }')
 
