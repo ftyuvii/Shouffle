@@ -6,7 +6,7 @@
     <title>Shouffle Bot | Documentation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,183 +14,258 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #fff9e6 0%, #ffe3ec 100%);
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe3ec 50%, #f0e6fa 100%);
             background-attachment: fixed;
             color: #7a5f59;
             line-height: 1.6;
-            padding: 40px 20px;
+            padding: 60px 20px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
         }
 
         /* Header Section */
         header {
             text-align: center;
-            margin-bottom: 50px;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 30px;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 40px 30px;
             border-radius: 32px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.2);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 15px 35px rgba(255, 182, 193, 0.25);
         }
 
         .bot-logo {
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             background-color: #fff;
-            padding: 5px;
+            padding: 6px;
             border: 4px solid #ffb6c1;
-            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.3);
-            margin-bottom: 15px;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
+            margin-bottom: 20px;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .bot-logo:hover {
+            transform: rotate(10deg) scale(1.05);
         }
 
         h1 {
             font-family: 'Fredoka', sans-serif;
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             color: #ff8da1;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
         }
 
         .subtitle {
-            font-size: 1.1rem;
-            color: #b08d86;
+            font-size: 1.05rem;
+            color: #8c716b;
             font-weight: 500;
-            margin-bottom: 15px;
+            max-width: 700px;
+            margin: 0 auto 20px auto;
         }
 
         .prefix-badge {
             display: inline-block;
-            background-color: #fff0f3;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe3ec 100%);
             color: #ff6584;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
             font-weight: 700;
-            border: 1px solid #ffe0e6;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(255, 101, 132, 0.1);
         }
 
-        /* Navigation Sidebar/Tabs alternative: Smooth categories */
+        /* Quick Guide for Beginners */
+        .beginner-guide {
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(164, 129, 122, 0.03);
+        }
+
+        .beginner-guide p {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #8faec4;
+            margin-bottom: 10px;
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .guide-tags {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .guide-tag {
+            background: #ffffff;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .guide-tag span {
+            font-weight: 700;
+            font-family: monospace;
+            background: #f7f9fa;
+            padding: 2px 6px;
+            border-radius: 6px;
+            margin-right: 4px;
+        }
+
+        /* Navigation Menu */
         .categories-nav {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 40px;
+            gap: 14px;
+            margin-bottom: 50px;
         }
 
         .cat-btn {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             color: #7a5f59;
-            padding: 10px 20px;
-            border-radius: 15px;
+            padding: 12px 24px;
+            border-radius: 20px;
             text-decoration: none;
             font-weight: 700;
             font-size: 0.95rem;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 2px solid transparent;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            box-shadow: 0 6px 15px rgba(164, 129, 122, 0.05);
         }
 
         .cat-btn:hover {
-            transform: translateY(-2px);
-            background: #fff;
-            border-color: #ffb6c1;
-            color: #ff6584;
+            transform: translateY(-3px);
+            background: #ffffff;
+            box-shadow: 0 10px 20px rgba(255, 182, 193, 0.25);
         }
 
-        /* Section Styling */
+        .cat-btn:nth-child(1):hover { border-color: #8faec4; color: #5c7b93; }
+        .cat-btn:nth-child(2):hover { border-color: #ff8da1; color: #ff6584; }
+        .cat-btn:nth-child(3):hover { border-color: #bca0dc; color: #9471be; }
+
+        /* Section Cards */
         .section-card {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.7);
             border-radius: 32px;
-            padding: 35px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(164, 129, 122, 0.04);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.6);
+            padding: 40px;
+            margin-bottom: 45px;
+            box-shadow: 0 15px 35px rgba(164, 129, 122, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.8);
         }
 
         .section-card h2 {
             font-family: 'Fredoka', sans-serif;
-            font-size: 1.8rem;
-            color: #ff8da1;
+            font-size: 2rem;
             margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 2px dashed #ffe0e6;
-            padding-bottom: 10px;
+            text-transform: lowercase;
+            letter-spacing: -0.5px;
+            border-bottom: 2px dashed rgba(0, 0, 0, 0.05);
+            padding-bottom: 12px;
         }
 
-        /* Custom Grid/Flex for Commands - Soft & Aesthetic */
+        /* Universal Command List Styling */
         .command-list {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 16px;
         }
 
         .command-item {
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 18px;
-            padding: 18px 22px;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.65);
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #ffffff;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
 
         .command-item:hover {
             background: #ffffff;
-            transform: translateX(4px);
-            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.15);
-            border-color: #ffb6c1;
+            transform: translateY(-4px) scale(1.01);
         }
 
         .command-trigger {
             font-family: 'Fredoka', sans-serif;
-            font-size: 1.15rem;
-            color: #5c7b93; /* Smooth contrasting soft blue */
+            font-size: 1.2rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .command-trigger::before {
             content: "✨";
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .command-desc {
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             color: #8c716b;
             font-weight: 500;
         }
 
-        /* Color Adjustments for categories */
-        .utility-sec h2 { color: #8faec4; border-color: #e2eef7; }
+        /* Themes Configurations based on Sections */
+        .utility-sec h2 { color: #8faec4; }
+        .utility-sec .command-item:hover { 
+            border-color: #8faec4; 
+            box-shadow: 0 8px 20px rgba(143, 174, 196, 0.2);
+        }
         .utility-sec .command-trigger { color: #5c7b93; }
         
-        .mod-sec h2 { color: #ff8da1; border-color: #ffe0e6; }
+        .mod-sec h2 { color: #ff8da1; }
+        .mod-sec .command-item:hover { 
+            border-color: #ff8da1; 
+            box-shadow: 0 8px 20px rgba(255, 141, 161, 0.2);
+        }
         .mod-sec .command-trigger { color: #e06d81; }
 
-        .config-sec h2 { color: #bca0dc; border-color: #f0e6fa; }
+        .config-sec h2 { color: #bca0dc; }
+        .config-sec .command-item:hover { 
+            border-color: #bca0dc; 
+            box-shadow: 0 8px 20px rgba(188, 160, 220, 0.2);
+        }
         .config-sec .command-trigger { color: #9471be; }
 
         /* Footer */
         footer {
             text-align: center;
-            margin-top: 50px;
-            font-size: 0.85rem;
+            margin-top: 60px;
+            font-size: 0.9rem;
             font-weight: 700;
             color: #b08d86;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -198,23 +273,27 @@
 
     <div class="container">
         
-        <!-- Header Section -->
         <header>
-            <!-- User can swap this image path with their real bot avatar -->
             <img class="bot-logo" src="https://i.ibb.co/TxY83FLZ/f78aa6c969dd76df0b0ad5c501059060.jpg" alt="Shouffle Bot Logo">
             <h1>Shouffle docs</h1>
-            <p class="subtitle">Hello! Thanks for coming on my documentation. I am developed by Yuvraj Ab, We are focusing on maintaining a aesthetics behind a technical project. Shouffle was founded in 2 June 2026 with purpose of growing and connecting with soft communities and we are still developing shouffle to make it easy-to-use for beginners. I hope you love my docs all the existing commands are listed bellow </p>
+            <p class="subtitle">Hello! Thanks for coming to my documentation. Developed by Yuvraj Ab, we focus on maintaining clean aesthetics behind a technical project. Shouffle was founded on June 2, 2026, to connect with soft communities, and we keep developing features to keep it easy to use for beginners.</p>
             <div class="prefix-badge">Triggers: /command or ?command</div>
         </header>
 
-        <!-- Category Quick Links -->
+        <div class="beginner-guide">
+            <p>💡 Quick Command Reading Guide</p>
+            <div class="guide-tags">
+                <div class="guide-tag"><span>&lt;argument&gt;</span> Required setting you must fill out</div>
+                <div class="guide-tag"><span>[argument]</span> Optional choice you can leave blank</div>
+            </div>
+        </div>
+
         <div class="categories-nav">
             <a href="#general" class="cat-btn">☁️ General & Utility</a>
             <a href="#moderation" class="cat-btn">🛡️ Moderation</a>
             <a href="#config" class="cat-btn">⚙️ Server Setup & Config</a>
         </div>
 
-        <!-- GENERAL & UTILITY SECTION -->
         <section id="general" class="section-card utility-sec">
             <h2>general & utility</h2>
             <div class="command-list">
@@ -329,7 +408,6 @@
             </div>
         </section>
 
-        <!-- MODERATION SECTION -->
         <section id="moderation" class="section-card mod-sec">
             <h2>moderation operations</h2>
             <div class="command-list">
@@ -400,7 +478,6 @@
             </div>
         </section>
 
-        <!-- CONFIG SECTION -->
         <section id="config" class="section-card config-sec">
             <h2>server setups & config</h2>
             <div class="command-list">
@@ -440,45 +517,29 @@
                     <div class="command-trigger">botlogs disable</div>
                     <div class="command-desc">Deactivates background logging and text change channel notifications.</div>
                 </div>
-            </div>
-
-<div class="command-item">
+                <div class="command-item">
                     <div class="command-trigger">vcsetup</div>
-                    <div class="command-desc">Setup a temporary vc system for your server</div>
+                    <div class="command-desc">Setup a temporary vc system for your server.</div>
                 </div>
-            </div>
-
-<div class="command-item">
+                <div class="command-item">
                     <div class="command-trigger">vcpanel</div>
-                    <div class="command-desc">You can always re send the vc panel if interfect is deleted</div>
+                    <div class="command-desc">You can always re-send the vc panel if interface is deleted.</div>
                 </div>
-            </div>
-
-<div class="command-item">
+                <div class="command-item">
                     <div class="command-trigger">rr create</div>
-                    <div class="command-desc">Setup reactionrole system for your server</div>
+                    <div class="command-desc">Setup reactionrole system for your server.</div>
                 </div>
-            </div>
-
-
-
-<div class="command-item">
+                <div class="command-item">
                     <div class="command-trigger">rr dm</div>
-                    <div class="command-desc">Enable Dm pop up when user take the role from reactionrole panel</div>
+                    <div class="command-desc">Enable Dm pop up when user takes the role from reactionrole panel.</div>
                 </div>
-            </div>
-
-
-
-        <div class="command-item">
+                <div class="command-item">
                     <div class="command-trigger">rr delete</div>
-                    <div class="command-desc">Delete the existing reactionrole panel</div>
+                    <div class="command-desc">Delete the existing reactionrole panel.</div>
                 </div>
             </div>
+        </section>
 
-</section>
-
-        <!-- Footer -->
         <footer>
             <p>© copyright 2026 @shouffle.bot | all rights reserved</p>
         </footer>
