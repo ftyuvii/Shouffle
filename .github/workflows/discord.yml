@@ -35,7 +35,7 @@ jobs:
             --arg branch "$BRANCH" \
             '{
               embeds: [{
-                color: 16758465,
+                color: FFFFFF,
                 author: {
                   name: $actor,
                   icon_url: $avatar_url,
