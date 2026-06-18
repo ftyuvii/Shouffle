@@ -1,39 +1,48 @@
 name: Discord Commit Notify
 
 on:
-push:
+  push:
 
 jobs:
-notify:
-runs-on: ubuntu-latest
+  notify:
+    runs-on: ubuntu-latest
 
-steps:
-  - name: Send Discord Webhook
-    env:
-      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-      COMMIT_MSG: ${{ github.event.head_commit.message }}
-      COMMIT_URL: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
-      ACTOR: ${{ github.actor }}
-      REPO: ${{ github.repository }}
-      BRANCH: ${{ github.ref_name }}
+    steps:
+      - name: Send Discord Webhook
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          COMMIT_URL: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+          ACTOR: ${{ github.actor }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
 
-    run: |
-      curl -X POST "$DISCORD_WEBHOOK" \
-      -H "Content-Type: application/json" \
-      -d "{
-        \"embeds\": [{
-          \"color\": 5814783,
-          \"author\": {
-            \"name\": \"$ACTOR\",
-            \"icon_url\": \"https://github.com/$ACTOR.png\",
-            \"url\": \"https://github.com/$ACTOR\"
-          },
-          \"description\": \"$COMMIT_MSG\n\n[View Commit]($COMMIT_URL)\",
-          \"thumbnail\": {
-            \"url\": \"https://github.com/$ACTOR.png\"
-          },
-          \"footer\": {
-            \"text\": \"$REPO • $BRANCH\"
-          }
-        }]
-      }"
+        run: |
+          payload=$(jq -n \
+            --arg actor "$ACTOR" \
+            --arg commit_msg "$COMMIT_MSG" \
+            --arg commit_url "$COMMIT_URL" \
+            --arg repo "$REPO" \
+            --arg branch "$BRANCH" \
+            '{
+              embeds: [{
+                color: 5814783,
+                author: {
+                  name: $actor,
+                  icon_url: ("https://github.com/" + $actor + ".png"),
+                  url: ("https://github.com/" + $actor)
+                },
+                description: ($commit_msg + "\n\n[View Commit](" + $commit_url + ")"),
+                thumbnail: {
+                  url: ("https://github.com/" + $actor + ".png")
+                },
+                footer: {
+                  text: ($repo + " • " + $branch)
+                }
+              }]
+            }')
+
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "$payload" \
+            "$DISCORD_WEBHOOK"
