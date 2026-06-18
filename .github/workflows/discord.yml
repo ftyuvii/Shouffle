@@ -1,4 +1,4 @@
-name: Discord Notify
+name: Discord Commit Notify
 
 on:
   push:
@@ -10,14 +10,14 @@ jobs:
       - name: Send Discord Message
         run: |
           curl -H "Content-Type: application/json" \
-          -d '{
-            "content": "📦 New Commit Pushed!",
-            "embeds": [
+          -d "{
+            \"content\": \"📦 New commit pushed to repo!\",
+            \"embeds\": [
               {
-                "title": "New Update",
-                "description": "${{ github.event.head_commit.message }}",
-                "url": "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+                \"title\": \"Commit Update\",
+                \"description\": \"${{ github.event.head_commit.message }}\",
+                \"url\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}\"
               }
             ]
-          }' \
+          }" \
           ${{ secrets.DISCORD_WEBHOOK }}
