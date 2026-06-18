@@ -8,30 +8,32 @@ notify:
 runs-on: ubuntu-latest
 
 steps:
-  - name: Send Discord Embed
+  - name: Send Discord Webhook
+    env:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      COMMIT_MSG: ${{ github.event.head_commit.message }}
+      COMMIT_URL: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+      ACTOR: ${{ github.actor }}
+      REPO: ${{ github.repository }}
+      BRANCH: ${{ github.ref_name }}
+
     run: |
-      curl -H "Content-Type: application/json" \
+      curl -X POST "$DISCORD_WEBHOOK" \
+      -H "Content-Type: application/json" \
       -d "{
         \"embeds\": [{
           \"color\": 5814783,
-
           \"author\": {
-            \"name\": \"${{ github.actor }}\",
-            \"icon_url\": \"https://github.com/${{ github.actor }}.png\",
-            \"url\": \"https://github.com/${{ github.actor }}\"
+            \"name\": \"$ACTOR\",
+            \"icon_url\": \"https://github.com/$ACTOR.png\",
+            \"url\": \"https://github.com/$ACTOR\"
           },
-
-          \"description\": \"${{ github.event.head_commit.message }}\n\n[View Commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\",
-
+          \"description\": \"$COMMIT_MSG\n\n[View Commit]($COMMIT_URL)\",
           \"thumbnail\": {
-            \"url\": \"https://github.com/${{ github.actor }}.png\"
+            \"url\": \"https://github.com/$ACTOR.png\"
           },
-
           \"footer\": {
-            \"text\": \"${{ github.repository }} • ${{ github.ref_name }}\"
-          },
-
-          \"timestamp\": \"${{ github.event.head_commit.timestamp }}\"
+            \"text\": \"$REPO • $BRANCH\"
+          }
         }]
-      }" \
-      ${{ secrets.DISCORD_WEBHOOK }}
+      }"
