@@ -16,29 +16,48 @@ jobs:
           ACTOR: ${{ github.actor }}
           REPO: ${{ github.repository }}
           BRANCH: ${{ github.ref_name }}
+          # Fetching direct avatar URL cleanly
+          AVATAR_URL: https://github.com/${{ github.actor }}.png
 
         run: |
           payload=$(jq -n \
             --arg actor "$ACTOR" \
+            --arg avatar_url "$AVATAR_URL" \
             --arg commit_msg "$COMMIT_MSG" \
             --arg commit_url "$COMMIT_URL" \
             --arg repo "$REPO" \
             --arg branch "$BRANCH" \
             '{
               embeds: [{
-                color: 5814783,
+                title: "🌸 New Commit Pushed! 🌸",
+                url: $commit_url,
+                color: 16757683,
                 author: {
                   name: $actor,
-                  icon_url: ("https://github.com/" + $actor + ".png"),
+                  icon_url: $avatar_url,
                   url: ("https://github.com/" + $actor)
                 },
-                description: ($commit_msg + "\n\n[View Commit](" + $commit_url + ")"),
+                description: ("**Message:**\n```\n" + $commit_msg + "\n```\n✨ [View Commit on GitHub](" + $commit_url + ")"),
                 thumbnail: {
-                  url: ("https://github.com/" + $actor + ".png")
+                  url: $avatar_url
                 },
+                fields: [
+                  {
+                    name: "📂 Repository",
+                    value: ("`" + $repo + "`"),
+                    inline: true
+                  },
+                  {
+                    name: "🌿 Branch",
+                    value: ("`" + $branch + "`"),
+                    inline: true
+                  }
+                ],
                 footer: {
-                  text: ($repo + " • " + $branch)
-                }
+                  text: "GitHub Actions • Kawaii Notifier",
+                  icon_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                },
+                timestamp: (now | strflocaltime("%Y-%m-%dT%H:%M:%SZ"))
               }]
             }')
 
