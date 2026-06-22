@@ -4,7 +4,7 @@ from discord import app_commands
 
 EMBED_COLOR = 0xFFFFFF
 
-SUPPORT_SERVER_URL = "https://discord.gg/Gfm2RXKNew"
+SUPPORT_SERVER_URL = "https://discord.gg/NCS7QQbf5"
 WEBSITE_URL = "https://shouffle.vercel.app/docs.html"
 YOUTUBE_URL = "https://drive.google.com/drive/folders/1fJjL-w0f9FEenJoiZCkRaq8NPHVWxIjw"
 
