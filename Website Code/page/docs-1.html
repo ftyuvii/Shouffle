@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shouffle Bot | Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --pink:       #ffb6c1;
+            --pink-deep:  #ff8da1;
+            --pink-soft:  #ffe3ec;
+            --blue:       #8faec4;
+            --blue-soft:  #d6e8f5;
+            --purple:     #bca0dc;
+            --purple-soft:#ede0fa;
+            --text:       #7a5860;
+            --text-light: #a88a8a;
+            --white:      #ffffff;
+            --glass:      rgba(255,255,255,0.72);
+            --glass-b:    rgba(255,255,255,0.92);
+            --shadow-pink: rgba(255,182,193,0.28);
+            --shadow-soft: rgba(164,129,122,0.07);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: #fff5f8;
+            color: var(--text);
+            line-height: 1.65;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ─── decorative blobs ─── */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.45;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::before {
+            width: 520px; height: 520px;
+            background: radial-gradient(circle, #ffd6e0 0%, transparent 70%);
+            top: -120px; left: -160px;
+        }
+        body::after {
+            width: 420px; height: 420px;
+            background: radial-gradient(circle, #dcc9f5 0%, transparent 70%);
+            bottom: -80px; right: -120px;
+        }
+
+        /* ─── sidebar layout ─── */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─── sidebar ─── */
+        .sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            background: var(--glass-b);
+            backdrop-filter: blur(20px);
+            border-right: 2px solid rgba(255,255,255,0.85);
+            padding: 36px 20px 60px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            box-shadow: 4px 0 30px var(--shadow-pink);
+        }
+
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-track { background: transparent; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 4px; }
+
+        .sidebar-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed rgba(255,182,193,0.4);
+        }
+
+        .sidebar-logo img {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 3px solid var(--pink);
+            object-fit: cover;
+            box-shadow: 0 6px 18px var(--shadow-pink);
+            transition: transform 0.4s ease;
+        }
+        .sidebar-logo img:hover { transform: rotate(8deg) scale(1.06); }
+
+        .sidebar-logo .brand {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.35rem;
+            color: var(--pink-deep);
+            letter-spacing: -0.3px;
+        }
+        .sidebar-logo .brand span {
+            font-weight: 400;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            display: block;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 0;
+        }
+
+        .sidebar-nav { display: flex; flex-direction: column; gap: 6px; }
+
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-light);
+            padding: 0 8px;
+            margin-top: 8px;
+            margin-bottom: 2px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        .nav-link:hover {
+            background: var(--pink-soft);
+            border-color: var(--pink);
+            color: var(--pink-deep);
+            transform: translateX(4px);
+        }
+        .nav-link .icon {
+            width: 28px; height: 28px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .nav-link.blue .icon  { background: var(--blue-soft); }
+        .nav-link.pink .icon  { background: var(--pink-soft); }
+        .nav-link.purple .icon { background: var(--purple-soft); }
+        .nav-link.green .icon { background: #d8f5e8; }
+
+        .nav-link.blue:hover  { background: var(--blue-soft);   border-color: var(--blue);   color: #4a7a95; }
+        .nav-link.pink:hover  { background: var(--pink-soft);   border-color: var(--pink);   color: var(--pink-deep); }
+        .nav-link.purple:hover { background: var(--purple-soft); border-color: var(--purple); color: #7a52b0; }
+        .nav-link.green:hover { background: #d8f5e8; border-color: #7dd4a8; color: #2e8a5a; }
+
+        .sidebar-footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            padding-top: 16px;
+            border-top: 1px dashed rgba(255,182,193,0.35);
+            line-height: 1.8;
+        }
+
+        /* ─── main content ─── */
+        .main {
+            flex: 1;
+            padding: 48px 40px 80px;
+            max-width: 900px;
+        }
+
+        /* ─── header ─── */
+        .page-header {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            border: 2px solid var(--white);
+            box-shadow: 0 16px 40px var(--shadow-pink);
+            padding: 40px 36px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.8rem;
+            color: var(--pink-deep);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0 rgba(255,255,255,0.8);
+            letter-spacing: -0.5px;
+        }
+
+        .page-header .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            max-width: 620px;
+            margin: 0 auto 18px;
+            font-weight: 500;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #fff0f3, var(--pink-soft));
+            color: #e0556e;
+            padding: 7px 20px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border: 2px solid var(--white);
+            box-shadow: 0 4px 12px rgba(255,101,132,0.12);
+            letter-spacing: 0.2px;
+        }
+
+        /* ─── search bar ─── */
+        .search-wrap {
+            position: relative;
+            margin-bottom: 32px;
+        }
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            pointer-events: none;
+            color: var(--pink-deep);
+            opacity: 0.7;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 15px 20px 15px 48px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,182,193,0.5);
+            background: var(--glass-b);
+            backdrop-filter: blur(12px);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            outline: none;
+            box-shadow: 0 8px 24px var(--shadow-pink);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        #searchInput::placeholder { color: var(--text-light); font-weight: 500; }
+        #searchInput:focus {
+            border-color: var(--pink-deep);
+            box-shadow: 0 0 0 4px rgba(255,141,161,0.15), 0 8px 24px var(--shadow-pink);
+        }
+        .search-count {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            background: rgba(255,182,193,0.25);
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: none;
+        }
+
+        /* ─── search results overlay ─── */
+        #searchResults {
+            display: none;
+            background: var(--glass-b);
+            border-radius: 20px;
+            border: 2px solid rgba(255,182,193,0.4);
+            box-shadow: 0 16px 40px var(--shadow-pink);
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 20px;
+            border-bottom: 1px solid rgba(255,182,193,0.2);
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .search-result-item:last-child { border-bottom: none; }
+        .search-result-item:hover { background: var(--pink-soft); }
+        .sri-cmd {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--pink-deep);
+            min-width: 130px;
+        }
+        .sri-desc { font-size: 0.85rem; color: var(--text-light); font-weight: 500; }
+        .sri-cat {
+            margin-left: auto;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .sri-cat.blue   { background: var(--blue-soft);   color: #4a7a95; }
+        .sri-cat.pink   { background: var(--pink-soft);   color: var(--pink-deep); }
+        .sri-cat.purple { background: var(--purple-soft); color: #7a52b0; }
+        .search-no-result {
+            padding: 28px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        /* ─── beginner guide ─── */
+        .beginner-guide {
+            background: var(--glass);
+            border-radius: 24px;
+            border: 2px solid var(--white);
+            padding: 24px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 24px var(--shadow-soft);
+        }
+        .guide-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .guide-header h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.15rem;
+            color: var(--text);
+        }
+        .guide-header .pill {
+            background: var(--pink-soft);
+            color: var(--pink-deep);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .guide-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 14px 16px;
+            border: 2px solid rgba(255,182,193,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .guide-card code {
+            font-family: 'Fredoka', monospace;
+            font-size: 1rem;
+            color: var(--pink-deep);
+            background: var(--pink-soft);
+            padding: 3px 10px;
+            border-radius: 8px;
+            display: inline-block;
+            width: fit-content;
+        }
+        .guide-card p { font-size: 0.82rem; color: var(--text-light); font-weight: 500; }
+
+        /* ─── section cards ─── */
+        .section-card {
+            background: var(--glass);
+            border-radius: 28px;
+            padding: 36px;
+            margin-bottom: 40px;
+            border: 2px solid var(--white);
+            box-shadow: 0 12px 32px var(--shadow-soft);
+            backdrop-filter: blur(12px);
+        }
+
+        .section-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.7rem;
+            text-transform: lowercase;
+            letter-spacing: -0.3px;
+            margin-bottom: 22px;
+            padding-bottom: 14px;
+            border-bottom: 2px dashed rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-card h2 .section-count {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* ─── command grid ─── */
+        .command-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 14px;
+        }
+
+        .command-item {
+            background: rgba(255,255,255,0.65);
+            border-radius: 18px;
+            padding: 18px;
+            border: 2px solid var(--white);
+            transition: all 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            cursor: default;
+        }
+        .command-item:hover {
+            background: var(--white);
+            transform: translateY(-4px) scale(1.015);
+        }
+
+        .command-trigger {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .command-trigger::before { content: "✦"; font-size: 0.75rem; opacity: 0.7; }
+
+        .command-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* section color themes */
+        .utility-sec h2   { color: var(--blue); }
+        .utility-sec .section-count { background: var(--blue-soft); color: #4a7a95; }
+        .utility-sec .command-item:hover { border-color: var(--blue); box-shadow: 0 8px 20px rgba(143,174,196,0.2); }
+        .utility-sec .command-trigger { color: #4a7a95; }
+        .utility-sec .command-trigger::before { color: var(--blue); }
+
+        .mod-sec h2   { color: var(--pink-deep); }
+        .mod-sec .section-count { background: var(--pink-soft); color: var(--pink-deep); }
+        .mod-sec .command-item:hover { border-color: var(--pink-deep); box-shadow: 0 8px 20px rgba(255,141,161,0.2); }
+        .mod-sec .command-trigger { color: #d9607a; }
+        .mod-sec .command-trigger::before { color: var(--pink-deep); }
+
+        .config-sec h2  { color: var(--purple); }
+        .config-sec .section-count { background: var(--purple-soft); color: #7a52b0; }
+        .config-sec .command-item:hover { border-color: var(--purple); box-shadow: 0 8px 20px rgba(188,160,220,0.2); }
+        .config-sec .command-trigger { color: #7a52b0; }
+        .config-sec .command-trigger::before { color: var(--purple); }
+
+        /* ─── add command panel ─── */
+        #add-command {
+            background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,230,240,0.6) 100%);
+            border-radius: 28px;
+            padding: 36px;
+            margin-bottom: 40px;
+            border: 2px solid var(--white);
+            box-shadow: 0 12px 32px var(--shadow-pink);
+            backdrop-filter: blur(12px);
+        }
+
+        #add-command h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.7rem;
+            color: var(--pink-deep);
+            margin-bottom: 8px;
+        }
+
+        #add-command p.desc {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        .form-group.full { grid-column: 1 / -1; }
+
+        .form-group label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 2px solid rgba(255,182,193,0.4);
+            background: var(--white);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s;
+            resize: vertical;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--pink-deep);
+            box-shadow: 0 0 0 3px rgba(255,141,161,0.12);
+        }
+        .form-group textarea { min-height: 80px; }
+
+        .form-actions { display: flex; gap: 12px; align-items: center; }
+
+        .btn-add {
+            background: linear-gradient(135deg, #ff8da1, #ffb6c1);
+            color: var(--white);
+            border: none;
+            padding: 13px 28px;
+            border-radius: 16px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 18px rgba(255,141,161,0.35);
+        }
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(255,141,161,0.45);
+        }
+        .btn-add:active { transform: translateY(0); }
+
+        .btn-export {
+            background: var(--white);
+            color: var(--pink-deep);
+            border: 2px solid var(--pink);
+            padding: 12px 22px;
+            border-radius: 16px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-export:hover {
+            background: var(--pink-soft);
+            transform: translateY(-2px);
+        }
+
+        .btn-clear-all {
+            background: transparent;
+            color: #c0826e;
+            border: 2px solid #f5c4b8;
+            padding: 12px 18px;
+            border-radius: 16px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+        .btn-clear-all:hover { background: #fff0ec; border-color: #e07060; color: #c05040; }
+
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: var(--white);
+            border: 2px solid var(--pink);
+            color: var(--pink-deep);
+            padding: 14px 22px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 24px var(--shadow-pink);
+            z-index: 999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        /* delete button on command items */
+        .command-item .del-btn {
+            display: none;
+            margin-top: 4px;
+            align-self: flex-end;
+            background: #fff0ec;
+            border: 1px solid #f5c4b8;
+            color: #c06050;
+            border-radius: 8px;
+            padding: 3px 9px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .command-item:hover .del-btn { display: inline-block; }
+        .command-item .del-btn:hover { background: #fde0d8; }
+
+        /* ─── footer ─── */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: 0.4px;
+        }
+
+        /* ─── mobile sidebar toggle ─── */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 16px; left: 16px;
+            z-index: 200;
+            background: var(--white);
+            border: 2px solid var(--pink);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--pink-deep);
+            box-shadow: 0 4px 12px var(--shadow-pink);
+        }
+
+        @media (max-width: 820px) {
+            .layout { flex-direction: column; }
+            .sidebar {
+                position: fixed;
+                top: 0; left: -280px;
+                height: 100vh;
+                z-index: 100;
+                transition: left 0.3s ease;
+                width: 260px;
+            }
+            .sidebar.open { left: 0; }
+            .menu-toggle { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; }
+            .main { padding: 70px 20px 60px; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+
+        /* highlight match in search */
+        mark { background: #fff4b0; border-radius: 3px; padding: 0 2px; }
+    </style>
+</head>
+<body>
+
+<button class="menu-toggle" onclick="toggleSidebar()">☰ Menu</button>
+
+<div class="layout">
+
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="https://i.ibb.co/TxY83FLZ/f78aa6c969dd76df0b0ad5c501059060.jpg" alt="Shouffle Logo">
+            <div class="brand">
+                Shouffle
+                <span>documentation v1.0</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-label">Navigation</div>
+            <a href="#top" class="nav-link pink">
+                <span class="icon">🏠</span> Home
+            </a>
+            <a href="#beginner" class="nav-link blue">
+                <span class="icon">📖</span> Beginner Guide
+            </a>
+
+            <div class="nav-label">Commands</div>
+            <a href="#general" class="nav-link blue">
+                <span class="icon">☁️</span> General & Utility
+            </a>
+            <a href="#moderation" class="nav-link pink">
+                <span class="icon">🛡️</span> Moderation
+            </a>
+            <a href="#config" class="nav-link purple">
+                <span class="icon">⚙️</span> Server Config
+            </a>
+
+            <div class="nav-label">Tools</div>
+            <a href="#add-command" class="nav-link green">
+                <span class="icon">➕</span> Add Command
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            © 2026 Shouffle Bot<br>
+            developed by Yuvraj Ab<br>
+            <span style="font-size:0.68rem; opacity:0.7">founded June 2, 2026</span>
+        </div>
+    </aside>
+
+    <!-- ─── MAIN ─── -->
+    <main class="main" id="top">
+
+        <!-- Header -->
+        <div class="page-header">
+            <h1>✿ Shouffle docs</h1>
+            <p class="subtitle">Hello! Thanks for coming to my documentation. Developed by Yuvraj Ab, Shouffle focuses on clean aesthetics behind a technical project. Founded on June 2, 2026 — built for soft communities, easy for everyone.</p>
+            <span class="badge">Triggers: /command &nbsp;or&nbsp; ?command</span>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search any command... e.g. ban, welcome, ticket" autocomplete="off">
+            <span class="search-count" id="searchCount"></span>
+        </div>
+        <div id="searchResults"></div>
+
+        <!-- Beginner Guide -->
+        <div class="beginner-guide" id="beginner">
+            <div class="guide-header">
+                <h3>Quick Start Guide</h3>
+                <span class="pill">For beginners ✿</span>
+            </div>
+            <div class="guide-grid">
+                <div class="guide-card">
+                    <code>&lt;argument&gt;</code>
+                    <p>Required — you must fill this in to run the command.</p>
+                </div>
+                <div class="guide-card">
+                    <code>[argument]</code>
+                    <p>Optional — you can leave this blank if you want.</p>
+                </div>
+                <div class="guide-card">
+                    <code>?command</code>
+                    <p>Prefix style — type directly in chat with the <strong>?</strong> symbol.</p>
+                </div>
+                <div class="guide-card">
+                    <code>/command</code>
+                    <p>Slash style — Discord's built-in autocomplete menu.</p>
+                </div>
+                <div class="guide-card">
+                    <code>?help</code>
+                    <p>Shows all available commands inside the bot's help panel.</p>
+                </div>
+                <div class="guide-card">
+                    <code>?botinfo</code>
+                    <p>See Shouffle's stats, uptime, and build information.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ GENERAL & UTILITY ══ -->
+        <section id="general" class="section-card utility-sec">
+            <h2>☁️ general & utility <span class="section-count" id="count-general"></span></h2>
+            <div class="command-list" id="list-general">
+                <div class="command-item" data-cmd="ping" data-cat="general">
+                    <div class="command-trigger">ping</div>
+                    <div class="command-desc">Tests the connection speed between Discord and Shouffle.</div>
+                </div>
+                <div class="command-item" data-cmd="uptime" data-cat="general">
+                    <div class="command-trigger">uptime</div>
+                    <div class="command-desc">Shows how long Shouffle has been online without interruption.</div>
+                </div>
+                <div class="command-item" data-cmd="botinfo" data-cat="general">
+                    <div class="command-trigger">botinfo</div>
+                    <div class="command-desc">Displays details about Shouffle, including statistics and build info.</div>
+                </div>
+                <div class="command-item" data-cmd="serverinfo" data-cat="general">
+                    <div class="command-trigger">serverinfo</div>
+                    <div class="command-desc">Provides a neat breakdown of the server's owner, age, and features.</div>
+                </div>
+                <div class="command-item" data-cmd="roleinfo" data-cat="general">
+                    <div class="command-trigger">roleinfo</div>
+                    <div class="command-desc">Shows deep configurations, permissions, and settings for a specific role.</div>
+                </div>
+                <div class="command-item" data-cmd="membercount" data-cat="general">
+                    <div class="command-trigger">membercount</div>
+                    <div class="command-desc">Counts the total number of real users and bots in the server.</div>
+                </div>
+                <div class="command-item" data-cmd="inviteinfo" data-cat="general">
+                    <div class="command-trigger">inviteinfo</div>
+                    <div class="command-desc">Analyzes a server invite link to find its origin and creator details.</div>
+                </div>
+                <div class="command-item" data-cmd="emojiinfo" data-cat="general">
+                    <div class="command-trigger">emojiinfo</div>
+                    <div class="command-desc">Reveals ID codes and direct image assets for any server emoji.</div>
+                </div>
+                <div class="command-item" data-cmd="stick" data-cat="general">
+                    <div class="command-trigger">stick</div>
+                    <div class="command-desc">Pins a chosen text to the bottom of a text channel dynamically.</div>
+                </div>
+                <div class="command-item" data-cmd="stickremove" data-cat="general">
+                    <div class="command-trigger">stickremove</div>
+                    <div class="command-desc">Removes the current active sticky message from the channel.</div>
+                </div>
+                <div class="command-item" data-cmd="autoresponder" data-cat="general">
+                    <div class="command-trigger">autoresponder</div>
+                    <div class="command-desc">Sets up Shouffle to automatically reply to custom keyword triggers.</div>
+                </div>
+                <div class="command-item" data-cmd="removeresponder" data-cat="general">
+                    <div class="command-trigger">removeresponder</div>
+                    <div class="command-desc">Deletes an active autoresponder keyword from the trigger list.</div>
+                </div>
+                <div class="command-item" data-cmd="listresponders" data-cat="general">
+                    <div class="command-trigger">listresponders</div>
+                    <div class="command-desc">Displays all custom auto-replies currently active in the server.</div>
+                </div>
+                <div class="command-item" data-cmd="say" data-cat="general">
+                    <div class="command-trigger">say</div>
+                    <div class="command-desc">Forces the bot to mirror and send exactly what text you type.</div>
+                </div>
+                <div class="command-item" data-cmd="embed" data-cat="general">
+                    <div class="command-trigger">embed</div>
+                    <div class="command-desc">Builds stylized, structured text blocks using rich card layouts.</div>
+                </div>
+                <div class="command-item" data-cmd="roll" data-cat="general">
+                    <div class="command-trigger">roll</div>
+                    <div class="command-desc">Generates a randomized dice roll outcome for mini-games.</div>
+                </div>
+                <div class="command-item" data-cmd="coinflip" data-cat="general">
+                    <div class="command-trigger">coinflip</div>
+                    <div class="command-desc">Flips a virtual coin to settle simple server choices (Heads/Tails).</div>
+                </div>
+                <div class="command-item" data-cmd="choose" data-cat="general">
+                    <div class="command-trigger">choose</div>
+                    <div class="command-desc">Randomly picks an option from multiple choices you provide.</div>
+                </div>
+                <div class="command-item" data-cmd="8ball" data-cat="general">
+                    <div class="command-trigger">8ball</div>
+                    <div class="command-desc">Answers questions with random fortune-telling logic outcomes.</div>
+                </div>
+                <div class="command-item" data-cmd="calculate" data-cat="general">
+                    <div class="command-trigger">calculate</div>
+                    <div class="command-desc">Acts as a direct math solver inside the chat interface.</div>
+                </div>
+                <div class="command-item" data-cmd="snipe" data-cat="general">
+                    <div class="command-trigger">snipe</div>
+                    <div class="command-desc">Displays the content of the last deleted message in the channel.</div>
+                </div>
+                <div class="command-item" data-cmd="steal" data-cat="general">
+                    <div class="command-trigger">steal</div>
+                    <div class="command-desc">Clones external custom emojis or stickers to your server.</div>
+                </div>
+                <div class="command-item" data-cmd="avatar" data-cat="general">
+                    <div class="command-trigger">avatar</div>
+                    <div class="command-desc">Grabs the high-resolution profile icon of any designated user.</div>
+                </div>
+                <div class="command-item" data-cmd="banner" data-cat="general">
+                    <div class="command-trigger">banner</div>
+                    <div class="command-desc">Grabs the high-resolution background banner of a user.</div>
+                </div>
+                <div class="command-item" data-cmd="afk" data-cat="general">
+                    <div class="command-trigger">afk</div>
+                    <div class="command-desc">Sets a custom status notice when you are away from keyboard.</div>
+                </div>
+                <div class="command-item" data-cmd="afkremove" data-cat="general">
+                    <div class="command-trigger">afkremove</div>
+                    <div class="command-desc">Clears your active AFK status immediately upon returning.</div>
+                </div>
+                <div class="command-item" data-cmd="poll" data-cat="general">
+                    <div class="command-trigger">poll</div>
+                    <div class="command-desc">Creates a custom public reaction poll for members to cast votes.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══ MODERATION ══ -->
+        <section id="moderation" class="section-card mod-sec">
+            <h2>🛡️ moderation operations <span class="section-count" id="count-moderation"></span></h2>
+            <div class="command-list" id="list-moderation">
+                <div class="command-item" data-cmd="mute" data-cat="moderation">
+                    <div class="command-trigger">mute</div>
+                    <div class="command-desc">Applies a text and voice channel timeout to a target member.</div>
+                </div>
+                <div class="command-item" data-cmd="unmute" data-cat="moderation">
+                    <div class="command-trigger">unmute</div>
+                    <div class="command-desc">Removes any active mute timeout restrictions from a profile.</div>
+                </div>
+                <div class="command-item" data-cmd="kick" data-cat="moderation">
+                    <div class="command-trigger">kick</div>
+                    <div class="command-desc">Removes a target user from the server while leaving an open rejoin route.</div>
+                </div>
+                <div class="command-item" data-cmd="softban" data-cat="moderation">
+                    <div class="command-trigger">softban</div>
+                    <div class="command-desc">Bans and instantly unbans a user to wipe their recent message history.</div>
+                </div>
+                <div class="command-item" data-cmd="ban" data-cat="moderation">
+                    <div class="command-trigger">ban</div>
+                    <div class="command-desc">Permanently restricts a user ID from entering the server.</div>
+                </div>
+                <div class="command-item" data-cmd="unban" data-cat="moderation">
+                    <div class="command-trigger">unban</div>
+                    <div class="command-desc">Pulls a user ID out of the server's central ban ledger.</div>
+                </div>
+                <div class="command-item" data-cmd="warn" data-cat="moderation">
+                    <div class="command-trigger">warn</div>
+                    <div class="command-desc">Logs a recorded infraction point on a user profile for rule tracking.</div>
+                </div>
+                <div class="command-item" data-cmd="clearwarns" data-cat="moderation">
+                    <div class="command-trigger">clearwarns</div>
+                    <div class="command-desc">Resets and deletes all logged warning records for a user.</div>
+                </div>
+                <div class="command-item" data-cmd="purge" data-cat="moderation">
+                    <div class="command-trigger">purge</div>
+                    <div class="command-desc">Deletes a specified number of messages from the channel quickly.</div>
+                </div>
+                <div class="command-item" data-cmd="mediaonly" data-cat="moderation">
+                    <div class="command-trigger">mediaonly</div>
+                    <div class="command-desc">Locks channels to automatically drop text without links or files.</div>
+                </div>
+                <div class="command-item" data-cmd="unmediaonly" data-cat="moderation">
+                    <div class="command-trigger">unmediaonly</div>
+                    <div class="command-desc">Reverts channels to allow a normal mix of text and files.</div>
+                </div>
+                <div class="command-item" data-cmd="roleadd" data-cat="moderation">
+                    <div class="command-trigger">roleadd</div>
+                    <div class="command-desc">Assigns an existing server role directly to a member's profile.</div>
+                </div>
+                <div class="command-item" data-cmd="roleremove" data-cat="moderation">
+                    <div class="command-trigger">roleremove</div>
+                    <div class="command-desc">Strips an active server role off a target member's profile.</div>
+                </div>
+                <div class="command-item" data-cmd="deafen" data-cat="moderation">
+                    <div class="command-trigger">deafen</div>
+                    <div class="command-desc">Mutes all audio reception for a user inside active voice chats.</div>
+                </div>
+                <div class="command-item" data-cmd="undeafen" data-cat="moderation">
+                    <div class="command-trigger">undeafen</div>
+                    <div class="command-desc">Restores regular voice listening for a deafened user.</div>
+                </div>
+                <div class="command-item" data-cmd="vcban" data-cat="moderation">
+                    <div class="command-trigger">vcban</div>
+                    <div class="command-desc">Disconnects and blocks a user from joining any voice channels.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══ SERVER CONFIG ══ -->
+        <section id="config" class="section-card config-sec">
+            <h2>⚙️ server setup & config <span class="section-count" id="count-config"></span></h2>
+            <div class="command-list" id="list-config">
+                <div class="command-item" data-cmd="welcomesetup" data-cat="config">
+                    <div class="command-trigger">welcomesetup</div>
+                    <div class="command-desc">Launches an interactive prompt to initialize welcome message scripts.</div>
+                </div>
+                <div class="command-item" data-cmd="welcomechannel" data-cat="config">
+                    <div class="command-trigger">welcomechannel</div>
+                    <div class="command-desc">Designates the channel where member join cards will be posted.</div>
+                </div>
+                <div class="command-item" data-cmd="welcometest" data-cat="config">
+                    <div class="command-trigger">welcometest</div>
+                    <div class="command-desc">Simulates a fake member entry to check welcome text rendering.</div>
+                </div>
+                <div class="command-item" data-cmd="welcomeconfig" data-cat="config">
+                    <div class="command-trigger">welcomeconfig</div>
+                    <div class="command-desc">Reviews all configuration variables set for your active welcome setup.</div>
+                </div>
+                <div class="command-item" data-cmd="ticketsetup" data-cat="config">
+                    <div class="command-trigger">ticketsetup</div>
+                    <div class="command-desc">Deploys automated support panels for staff-user communication.</div>
+                </div>
+                <div class="command-item" data-cmd="ticketconfig" data-cat="config">
+                    <div class="command-trigger">ticketconfig</div>
+                    <div class="command-desc">Configures access groups, categories, and logging for tickets.</div>
+                </div>
+                <div class="command-item" data-cmd="autorole" data-cat="config">
+                    <div class="command-trigger">autorole</div>
+                    <div class="command-desc">Saves roles that Shouffle will auto-assign as new users join.</div>
+                </div>
+                <div class="command-item" data-cmd="botlogs enable" data-cat="config">
+                    <div class="command-trigger">botlogs enable</div>
+                    <div class="command-desc">Enables extensive background server action auditing hooks.</div>
+                </div>
+                <div class="command-item" data-cmd="botlogs disable" data-cat="config">
+                    <div class="command-trigger">botlogs disable</div>
+                    <div class="command-desc">Deactivates background logging and text change notifications.</div>
+                </div>
+                <div class="command-item" data-cmd="vcsetup" data-cat="config">
+                    <div class="command-trigger">vcsetup</div>
+                    <div class="command-desc">Sets up a temporary voice channel system for your server.</div>
+                </div>
+                <div class="command-item" data-cmd="vcpanel" data-cat="config">
+                    <div class="command-trigger">vcpanel</div>
+                    <div class="command-desc">Re-sends the voice control panel if the interface is deleted.</div>
+                </div>
+                <div class="command-item" data-cmd="rr create" data-cat="config">
+                    <div class="command-trigger">rr create</div>
+                    <div class="command-desc">Sets up a reaction role system for your server.</div>
+                </div>
+                <div class="command-item" data-cmd="rr dm" data-cat="config">
+                    <div class="command-trigger">rr dm</div>
+                    <div class="command-desc">Enables DM notification when a user picks up a reaction role.</div>
+                </div>
+                <div class="command-item" data-cmd="rr delete" data-cat="config">
+                    <div class="command-trigger">rr delete</div>
+                    <div class="command-desc">Deletes the existing reaction role panel from the server.</div>
+                </div>
+                <div class="command-item" data-cmd="automod enable" data-cat="config">
+                    <div class="command-trigger">automod enable</div>
+                    <div class="command-desc">Enables automoderation for the server.</div>
+                </div>
+                <div class="command-item" data-cmd="automod disable" data-cat="config">
+                    <div class="command-trigger">automod disable</div>
+                    <div class="command-desc">Disables automoderation for the server.</div>
+                </div>
+                <div class="command-item" data-cmd="automod config" data-cat="config">
+                    <div class="command-trigger">automod config</div>
+                    <div class="command-desc">Opens the automoderation settings editor for the server.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══ ADD COMMAND PANEL ══ -->
+        <div id="add-command">
+            <h2>➕ Add New Command</h2>
+            <p class="desc">Add commands directly here — no HTML editing needed. They appear in the docs and search automatically.</p>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Command Name</label>
+                    <input type="text" id="newCmd" placeholder="e.g. giveaway">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="newCat">
+                        <option value="general">☁️ General & Utility</option>
+                        <option value="moderation">🛡️ Moderation</option>
+                        <option value="config">⚙️ Server Config</option>
+                    </select>
+                </div>
+                <div class="form-group full">
+                    <label>Description</label>
+                    <textarea id="newDesc" placeholder="Describe what this command does in one clear sentence..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-add" onclick="addCommand()">✦ Add Command</button>
+                <button class="btn-export" onclick="exportHTML()">⬇ Export HTML</button>
+                <button class="btn-clear-all" onclick="clearCustom()">🗑 Clear Added</button>
+            </div>
+        </div>
+
+        <footer>© copyright 2026 @shouffle.bot | all rights reserved</footer>
+    </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    // ─── DATA ───
+    const COMMANDS = [];
+
+    // Collect all built-in commands from DOM
+    document.querySelectorAll('.command-item[data-cmd]').forEach(el => {
+        COMMANDS.push({
+            cmd:  el.dataset.cmd,
+            cat:  el.dataset.cat,
+            desc: el.querySelector('.command-desc').textContent,
+            builtin: true,
+            el
+        });
+    });
+
+    // ─── COUNT BADGES ───
+    function updateCounts() {
+        ['general','moderation','config'].forEach(cat => {
+            const count = document.querySelectorAll(`#list-${cat} .command-item`).length;
+            const el = document.getElementById(`count-${cat}`);
+            if (el) el.textContent = count + ' commands';
+        });
+    }
+    updateCounts();
+
+    // ─── SEARCH ───
+    const searchInput  = document.getElementById('searchInput');
+    const searchResult = document.getElementById('searchResults');
+    const searchCount  = document.getElementById('searchCount');
+
+    searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim().toLowerCase();
+        if (!q) {
+            searchResult.style.display = 'none';
+            searchCount.style.display  = 'none';
+            return;
+        }
+
+        const allItems = document.querySelectorAll('.command-item');
+        const matches = [];
+        allItems.forEach(item => {
+            const cmd  = (item.dataset.cmd  || '').toLowerCase();
+            const desc = item.querySelector('.command-desc')?.textContent.toLowerCase() || '';
+            const cat  = item.dataset.cat || '';
+            if (cmd.includes(q) || desc.includes(q)) {
+                matches.push({ cmd: item.dataset.cmd, desc: item.querySelector('.command-desc').textContent, cat });
+            }
+        });
+
+        searchCount.textContent = matches.length + ' found';
+        searchCount.style.display = 'inline-block';
+
+        if (matches.length === 0) {
+            searchResult.innerHTML = `<div class="search-no-result">✦ No commands found for "<strong>${esc(q)}</strong>"</div>`;
+        } else {
+            const catLabel = { general: 'General', moderation: 'Moderation', config: 'Config' };
+            searchResult.innerHTML = matches.slice(0, 12).map(m => `
+                <div class="search-result-item" onclick="jumpTo('${m.cat}','${esc(m.cmd)}')">
+                    <div class="sri-cmd">${highlight(m.cmd, q)}</div>
+                    <div class="sri-desc">${highlight(m.desc, q)}</div>
+                    <span class="sri-cat ${m.cat}">${catLabel[m.cat] || m.cat}</span>
+                </div>
+            `).join('');
+        }
+        searchResult.style.display = 'block';
+    });
+
+    // close search on outside click
+    document.addEventListener('click', e => {
+        if (!e.target.closest('.search-wrap') && !e.target.closest('#searchResults')) {
+            searchResult.style.display = 'none';
+        }
+    });
+
+    function highlight(text, q) {
+        if (!q) return esc(text);
+        const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+        return esc(text).replace(re, '<mark>$1</mark>');
+    }
+
+    function jumpTo(cat, cmd) {
+        searchResult.style.display = 'none';
+        searchInput.value = '';
+        searchCount.style.display = 'none';
+        const section = document.getElementById(cat);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => {
+                const items = section.querySelectorAll('.command-item');
+                items.forEach(item => {
+                    if ((item.dataset.cmd || '').toLowerCase() === cmd.toLowerCase()) {
+                        item.style.outline = '3px solid #ffb6c1';
+                        item.style.outlineOffset = '3px';
+                        setTimeout(() => { item.style.outline = ''; item.style.outlineOffset = ''; }, 1800);
+                    }
+                });
+            }, 400);
+        }
+    }
+
+    // ─── ADD COMMAND ───
+    function addCommand() {
+        const cmd  = document.getElementById('newCmd').value.trim();
+        const cat  = document.getElementById('newCat').value;
+        const desc = document.getElementById('newDesc').value.trim();
+
+        if (!cmd) { showToast('⚠️ Enter a command name!'); return; }
+        if (!desc) { showToast('⚠️ Enter a description!'); return; }
+
+        // Check duplicate
+        const exists = document.querySelector(`.command-item[data-cmd="${cmd.toLowerCase()}"]`);
+        if (exists) { showToast('⚠️ Command already exists!'); return; }
+
+        const item = document.createElement('div');
+        item.className = 'command-item';
+        item.dataset.cmd = cmd.toLowerCase();
+        item.dataset.cat = cat;
+        item.dataset.custom = 'true';
+        item.innerHTML = `
+            <div class="command-trigger">${esc(cmd)}</div>
+            <div class="command-desc">${esc(desc)}</div>
+            <button class="del-btn" onclick="deleteCommand(this)">✕ remove</button>
+        `;
+
+        document.getElementById(`list-${cat}`).appendChild(item);
+        updateCounts();
+
+        document.getElementById('newCmd').value  = '';
+        document.getElementById('newDesc').value = '';
+        showToast('✦ Command added successfully!');
+    }
+
+    function deleteCommand(btn) {
+        const item = btn.closest('.command-item');
+        item.style.transform = 'scale(0.9)';
+        item.style.opacity = '0';
+        setTimeout(() => { item.remove(); updateCounts(); }, 200);
+        showToast('🗑 Command removed.');
+    }
+
+    function clearCustom() {
+        const custom = document.querySelectorAll('.command-item[data-custom="true"]');
+        if (custom.length === 0) { showToast('No custom commands to clear.'); return; }
+        custom.forEach(el => el.remove());
+        updateCounts();
+        showToast('🗑 All custom commands cleared.');
+    }
+
+    // ─── EXPORT HTML ───
+    function exportHTML() {
+        const clone = document.documentElement.cloneNode(true);
+
+        // Remove add-command panel and toast from export
+        const addPanel = clone.querySelector('#add-command');
+        if (addPanel) addPanel.remove();
+        const toastEl = clone.querySelector('.toast');
+        if (toastEl) toastEl.remove();
+        const toggle = clone.querySelector('.menu-toggle');
+        if (toggle) toggle.remove();
+
+        // Remove delete buttons
+        clone.querySelectorAll('.del-btn').forEach(b => b.remove());
+
+        // Remove sidebar Add Command link
+        clone.querySelectorAll('.nav-link.green').forEach(el => el.remove());
+
+        // Clean up script and inline styles added by JS
+        clone.querySelectorAll('.command-item').forEach(el => {
+            el.style.outline = '';
+            el.style.outlineOffset = '';
+            el.style.transform = '';
+            el.style.opacity = '';
+        });
+
+        const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+        const blob = new Blob([html], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'shouffle-docs.html';
+        a.click();
+        showToast('⬇ Exported as shouffle-docs.html!');
+    }
+
+    // ─── TOAST ───
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    // ─── MOBILE SIDEBAR ───
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+    }
+    document.addEventListener('click', e => {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar.classList.contains('open') && !e.target.closest('#sidebar') && !e.target.closest('.menu-toggle')) {
+            sidebar.classList.remove('open');
+        }
+    });
+
+    // ─── HELPERS ───
+    function esc(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+</script>
+
+</body>
+</html>
