@@ -140,34 +140,58 @@ class Owner(commands.Cog):
         save_noprefix(data)
         await ctx.send(embed=self._ok(f"✅ Removed no-prefix access from {user.mention}."))
 
-    @commands.command(name="cc")
-    @is_owner()
-    async def current_commands(self, ctx: commands.Context):
-        prefix_cmds = sorted(
-            [f"`?{cmd.qualified_name}`" for cmd in self.bot.walk_commands()],
-            key=lambda x: x.lower()
-        )
-        slash_cmds = sorted(
-            [f"`/{cmd.name}`" for cmd in self.bot.tree.get_commands()],
-            key=lambda x: x.lower()
+   @commands.command(name="cc")
+@commands.is_owner()
+async def current_commands(self, ctx: commands.Context):
+    prefix_cmds = sorted(
+        {f"`?{cmd.qualified_name}`" for cmd in self.bot.walk_commands()},
+        key=str.lower
+    )
+
+    slash_cmds = sorted(
+        {f"`/{cmd.name}`" for cmd in self.bot.tree.get_commands()},
+        key=str.lower
+    )
+
+    prefix_text = ", ".join(prefix_cmds) or "None"
+    slash_text = ", ".join(slash_cmds) or "None"
+
+    # Prevent embed field length errors
+    if len(prefix_text) > 1024:
+        prefix_text = (
+            f"Too many commands to display.\n"
+            f"Total Prefix Commands: **{len(prefix_cmds)}**"
         )
 
-        embed = discord.Embed(
-            title="Loaded Commands",
-            color=EMBED_COLOR
+    if len(slash_text) > 1024:
+        slash_text = (
+            f"Too many commands to display.\n"
+            f"Total Slash Commands: **{len(slash_cmds)}**"
         )
-        embed.add_field(
-            name=f"Prefix Commands ({len(prefix_cmds)})",
-            value=", ".join(prefix_cmds) if prefix_cmds else "None",
-            inline=False
-        )
-        embed.add_field(
-            name=f"Slash Commands ({len(slash_cmds)})",
-            value=", ".join(slash_cmds) if slash_cmds else "None",
-            inline=False
-        )
-        embed.set_footer(text="Shouffle • Owner")
-        await ctx.send(embed=embed)
+
+    embed = discord.Embed(
+        title="📊 Command Counter",
+        description=(
+            f"**Total Commands:** "
+            f"`{len(prefix_cmds) + len(slash_cmds)}`"
+        ),
+        color=EMBED_COLOR
+    )
+
+    embed.add_field(
+        name=f"Prefix Commands ({len(prefix_cmds)})",
+        value=prefix_text,
+        inline=False
+    )
+
+    embed.add_field(
+        name=f"Slash Commands ({len(slash_cmds)})",
+        value=slash_text,
+        inline=False
+    )
+
+    embed.set_footer(text="Shouffle • Owner")
+    await ctx.send(embed=embed)
 
     @commands.command(name="globalmsg")
     @is_owner()
