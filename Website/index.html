@@ -1,929 +1,440 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shouffle Bot | Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --pink:#ffb6c1;--pink-deep:#ff8da1;--pink-soft:#ffe3ec;
-  --blue:#8faec4;--blue-soft:#d6e8f5;
-  --purple:#bca0dc;--purple-soft:#ede0fa;
-  --mint:#a8d8b9;--mint-soft:#d8f5e8;
-  --peach:#ffd4b0;--peach-soft:#fff0e0;
-  --lav:#c5b3e8;--lav-soft:#f0eaff;
-  --text:#7a5860;--text-light:#a88a8a;
-  --white:#ffffff;
-  --glass:rgba(255,255,255,0.72);--glass-b:rgba(255,255,255,0.92);
-  --shadow-pink:rgba(255,182,193,0.28);--shadow-soft:rgba(164,129,122,0.07);
-}
-html{scroll-behavior:smooth}
-body{font-family:'Quicksand',sans-serif;background:#fff5f8;color:var(--text);line-height:1.65;min-height:100vh;overflow-x:hidden}
-body::before,body::after{content:'';position:fixed;border-radius:50%;filter:blur(80px);opacity:.45;pointer-events:none;z-index:0}
-body::before{width:520px;height:520px;background:radial-gradient(circle,#ffd6e0 0%,transparent 70%);top:-120px;left:-160px}
-body::after{width:420px;height:420px;background:radial-gradient(circle,#dcc9f5 0%,transparent 70%);bottom:-80px;right:-120px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mochi Bot ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fbf5f3;
+            --panel-bg: #ffffff;
+            --text-main: #6d5c6e;
+            --text-muted: #9c8c9e;
+            --pastel-pink: #ffd6e0;
+            --pastel-blue: #c1f0f6;
+            --pastel-purple: #dec0f1;
+            --pastel-yellow: #fef6c9;
+            --accent-pink: #ffafcc;
+            --border-radius: 24px;
+        }
 
-/* ── layout ── */
-.layout{display:flex;min-height:100vh;position:relative;z-index:1}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-/* ── sidebar ── */
-.sidebar{width:260px;flex-shrink:0;background:var(--glass-b);backdrop-filter:blur(20px);border-right:2px solid rgba(255,255,255,.85);padding:36px 20px 60px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;gap:24px;box-shadow:4px 0 30px var(--shadow-pink)}
-.sidebar::-webkit-scrollbar{width:4px}
-.sidebar::-webkit-scrollbar-thumb{background:var(--pink);border-radius:4px}
-.sidebar-logo{display:flex;flex-direction:column;align-items:center;gap:10px;padding-bottom:20px;border-bottom:2px dashed rgba(255,182,193,.4)}
-.sidebar-logo img{width:72px;height:72px;border-radius:50%;border:3px solid var(--pink);object-fit:cover;box-shadow:0 6px 18px var(--shadow-pink);transition:transform .4s}
-.sidebar-logo img:hover{transform:rotate(8deg) scale(1.06)}
-.brand{font-family:'Fredoka',sans-serif;font-size:1.35rem;color:var(--pink-deep);letter-spacing:-.3px;text-align:center}
-.brand span{font-weight:400;color:var(--text-light);font-size:.8rem;display:block;font-family:'Quicksand',sans-serif}
-.sidebar-nav{display:flex;flex-direction:column;gap:4px}
-.nav-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-light);padding:0 8px;margin-top:10px;margin-bottom:2px}
-.nav-link{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:14px;text-decoration:none;font-weight:600;font-size:.88rem;color:var(--text);transition:all .2s;border:2px solid transparent}
-.nav-link:hover{transform:translateX(4px)}
-.nav-link .icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
-.nav-link.blue .icon{background:var(--blue-soft)}
-.nav-link.pink .icon{background:var(--pink-soft)}
-.nav-link.purple .icon{background:var(--purple-soft)}
-.nav-link.green .icon{background:var(--mint-soft)}
-.nav-link.orange .icon{background:var(--peach-soft)}
-.nav-link.lav .icon{background:var(--lav-soft)}
-.nav-link.blue:hover{background:var(--blue-soft);border-color:var(--blue);color:#4a7a95}
-.nav-link.pink:hover{background:var(--pink-soft);border-color:var(--pink);color:var(--pink-deep)}
-.nav-link.purple:hover{background:var(--purple-soft);border-color:var(--purple);color:#7a52b0}
-.nav-link.green:hover{background:var(--mint-soft);border-color:var(--mint);color:#2e8a5a}
-.nav-link.orange:hover{background:var(--peach-soft);border-color:#f5a470;color:#c07040}
-.nav-link.lav:hover{background:var(--lav-soft);border-color:var(--lav);color:#7052b0}
-.nav-link.active{background:var(--pink-soft);border-color:var(--pink);color:var(--pink-deep)}
-.sidebar-footer{margin-top:auto;text-align:center;font-size:.75rem;color:var(--text-light);padding-top:16px;border-top:1px dashed rgba(255,182,193,.35);line-height:1.8}
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-/* ── pages ── */
-.main{flex:1;min-height:100vh}
-.page{display:none;padding:48px 40px 80px;max-width:960px}
-.page.active{display:block}
+        body::before {
+            content: "☁️";
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            font-size: 2rem;
+            opacity: 0.5;
+            animation: float 6s ease-in-out infinite alternate;
+        }
 
-/* ══ HOME PAGE ══ */
-.hero{background:var(--glass);backdrop-filter:blur(20px);border-radius:32px;border:2px solid var(--white);box-shadow:0 20px 50px var(--shadow-pink);padding:56px 40px;text-align:center;margin-bottom:36px;position:relative;overflow:hidden}
-.hero::before{content:'✿';position:absolute;font-size:8rem;opacity:.05;top:-10px;right:20px;pointer-events:none}
-.hero::after{content:'✦';position:absolute;font-size:6rem;opacity:.05;bottom:-10px;left:30px;pointer-events:none}
-.hero-avatar{width:100px;height:100px;border-radius:50%;border:4px solid var(--pink);object-fit:cover;box-shadow:0 10px 30px var(--shadow-pink);margin-bottom:20px;transition:transform .4s}
-.hero-avatar:hover{transform:scale(1.08) rotate(5deg)}
-.hero h1{font-family:'Fredoka',sans-serif;font-size:3rem;color:var(--pink-deep);margin-bottom:10px;text-shadow:2px 2px 0 rgba(255,255,255,.8)}
-.hero .tagline{font-size:1rem;color:var(--text-light);max-width:560px;margin:0 auto 28px;font-weight:500}
-.hero-badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
-.badge-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 18px;border-radius:30px;font-size:.82rem;font-weight:700;border:2px solid var(--white)}
-.badge-pill.online{background:linear-gradient(135deg,#c8f5d8,#a8e8c0);color:#2a7a4a;border-color:#8fd4a8}
-.badge-pill.cmds{background:linear-gradient(135deg,var(--blue-soft),#c0d8ee);color:#3a6a8a;border-color:var(--blue)}
-.badge-pill.prefix{background:linear-gradient(135deg,var(--pink-soft),#ffd0dc);color:var(--pink-deep);border-color:var(--pink)}
-.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.btn-invite{background:linear-gradient(135deg,#ff8da1,#ffb6c1);color:#fff;border:none;padding:14px 32px;border-radius:18px;font-family:'Fredoka',sans-serif;font-size:1.05rem;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:0 8px 24px rgba(255,141,161,.4);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
-.btn-invite:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(255,141,161,.5)}
-.btn-docs{background:var(--white);color:var(--pink-deep);border:2px solid var(--pink);padding:13px 28px;border-radius:18px;font-family:'Fredoka',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
-.btn-docs:hover{background:var(--pink-soft);transform:translateY(-3px)}
+        body::after {
+            content: "✨";
+            position: absolute;
+            bottom: 15%;
+            right: 8%;
+            font-size: 1.8rem;
+            opacity: 0.6;
+            animation: float 5s ease-in-out infinite alternate-reverse;
+        }
 
-/* stat cards */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:36px}
-.stat-card{background:var(--glass);backdrop-filter:blur(12px);border-radius:22px;border:2px solid var(--white);box-shadow:0 8px 24px var(--shadow-soft);padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;transition:transform .2s}
-.stat-card:hover{transform:translateY(-4px)}
-.stat-icon{font-size:1.8rem;margin-bottom:4px}
-.stat-value{font-family:'Fredoka',sans-serif;font-size:1.9rem;font-weight:700;line-height:1}
-.stat-label{font-size:.8rem;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:.8px}
-.stat-card.pink .stat-value{color:var(--pink-deep)}
-.stat-card.blue .stat-value{color:#4a7a95}
-.stat-card.purple .stat-value{color:#7a52b0}
-.stat-card.mint .stat-value{color:#2e8a5a}
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
+        }
 
-/* bot status bar */
-.status-bar{background:var(--glass);border-radius:22px;border:2px solid var(--white);padding:22px 28px;margin-bottom:36px;box-shadow:0 8px 24px var(--shadow-soft);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-.status-left{display:flex;align-items:center;gap:14px}
-.status-dot{width:14px;height:14px;border-radius:50%;background:#4cda7a;box-shadow:0 0 0 4px rgba(76,218,122,.2);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(76,218,122,.2)}50%{box-shadow:0 0 0 8px rgba(76,218,122,.08)}}
-.status-text{font-family:'Fredoka',sans-serif;font-size:1.1rem;color:var(--text)}
-.status-text span{color:#2e8a5a}
-.status-details{display:flex;gap:20px;flex-wrap:wrap}
-.status-item{display:flex;flex-direction:column;align-items:center;gap:2px}
-.status-item-val{font-family:'Fredoka',sans-serif;font-size:1rem;color:var(--pink-deep);font-weight:600}
-.status-item-lbl{font-size:.72rem;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.7px}
+        .container {
+            width: 100%;
+            max-width: 1050px;
+            background: var(--panel-bg);
+            border: 4px solid var(--pastel-pink);
+            border-radius: var(--border-radius);
+            box-shadow: 0 12px 0px var(--pastel-pink);
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            overflow: hidden;
+            position: relative;
+        }
 
-/* feature cards */
-.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-bottom:36px}
-.feature-card{background:var(--glass);border-radius:22px;border:2px solid var(--white);box-shadow:0 8px 20px var(--shadow-soft);padding:26px 22px;transition:transform .2s;backdrop-filter:blur(10px)}
-.feature-card:hover{transform:translateY(-5px)}
-.feature-card .fc-icon{font-size:2rem;margin-bottom:12px}
-.feature-card h3{font-family:'Fredoka',sans-serif;font-size:1.1rem;margin-bottom:6px}
-.feature-card p{font-size:.83rem;color:var(--text-light);font-weight:500;line-height:1.55}
-.feature-card.fc-pink{border-color:rgba(255,182,193,.5)}
-.feature-card.fc-pink h3{color:var(--pink-deep)}
-.feature-card.fc-blue{border-color:rgba(143,174,196,.5)}
-.feature-card.fc-blue h3{color:#4a7a95}
-.feature-card.fc-purple{border-color:rgba(188,160,220,.5)}
-.feature-card.fc-purple h3{color:#7a52b0}
-.feature-card.fc-mint{border-color:rgba(168,216,185,.5)}
-.feature-card.fc-mint h3{color:#2e8a5a}
-.feature-card.fc-peach{border-color:rgba(255,180,110,.5)}
-.feature-card.fc-peach h3{color:#c07040}
-.feature-card.fc-lav{border-color:rgba(197,179,232,.5)}
-.feature-card.fc-lav h3{color:#7052b0}
+        .left-panel {
+            background-color: #fff9fb;
+            padding: 60px 45px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-right: 4px dashed var(--pastel-pink);
+            position: relative;
+        }
 
-/* dev card */
-.dev-card{background:var(--glass);border-radius:28px;border:2px solid var(--white);box-shadow:0 12px 32px var(--shadow-pink);padding:36px;display:flex;align-items:center;gap:28px;margin-bottom:36px;flex-wrap:wrap}
-.dev-avatar{width:88px;height:88px;border-radius:50%;border:3px solid var(--purple);box-shadow:0 8px 20px rgba(188,160,220,.3);flex-shrink:0;background:linear-gradient(135deg,var(--purple-soft),var(--pink-soft));display:flex;align-items:center;justify-content:center;font-size:2.2rem}
-.dev-info h2{font-family:'Fredoka',sans-serif;font-size:1.6rem;color:var(--purple);margin-bottom:6px}
-.dev-info p{font-size:.88rem;color:var(--text-light);font-weight:500;max-width:480px;line-height:1.6;margin-bottom:14px}
-.dev-links{display:flex;gap:10px;flex-wrap:wrap}
-.dev-link{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:12px;font-size:.82rem;font-weight:700;text-decoration:none;border:2px solid;transition:all .2s}
-.dev-link.discord{background:var(--blue-soft);border-color:var(--blue);color:#4a7a95}
-.dev-link.discord:hover{background:var(--blue);color:#fff}
-.dev-link.github{background:#f0f0f5;border-color:#c0c0d0;color:#555}
-.dev-link.github:hover{background:#333;color:#fff;border-color:#333}
+        .bot-avatar-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
 
-/* invite section */
-.invite-section{background:linear-gradient(135deg,rgba(255,182,193,.2),rgba(188,160,220,.15));border-radius:28px;border:2px solid var(--white);padding:40px;text-align:center;margin-bottom:36px;box-shadow:0 12px 32px var(--shadow-pink)}
-.invite-section h2{font-family:'Fredoka',sans-serif;font-size:2rem;color:var(--pink-deep);margin-bottom:10px}
-.invite-section p{font-size:.92rem;color:var(--text-light);font-weight:500;max-width:500px;margin:0 auto 24px}
+        .bot-avatar {
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: inset 0 -8px 0 rgba(0,0,0,0.05);
+        }
 
-/* section header */
-.section-header{font-family:'Fredoka',sans-serif;font-size:1.5rem;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.section-header::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,rgba(255,182,193,.4),transparent);border-radius:2px}
+        .bot-face {
+            width: 90px;
+            height: 60px;
+            position: relative;
+        }
 
-/* ══ DOCS PAGE ══ */
-.docs-page .page-header{background:var(--glass);backdrop-filter:blur(20px);border-radius:28px;border:2px solid var(--white);box-shadow:0 16px 40px var(--shadow-pink);padding:36px;margin-bottom:28px;text-align:center}
-.docs-page .page-header h1{font-family:'Fredoka',sans-serif;font-size:2.4rem;color:var(--pink-deep);margin-bottom:8px}
-.docs-page .page-header p{font-size:.9rem;color:var(--text-light);max-width:560px;margin:0 auto 16px;font-weight:500}
-.badge{display:inline-block;background:linear-gradient(135deg,#fff0f3,var(--pink-soft));color:#e0556e;padding:7px 20px;border-radius:30px;font-size:.88rem;font-weight:700;border:2px solid var(--white)}
-.search-wrap{position:relative;margin-bottom:28px}
-.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:1.1rem;pointer-events:none;color:var(--pink-deep);opacity:.7}
-#searchInput{width:100%;padding:14px 20px 14px 48px;border-radius:20px;border:2px solid rgba(255,182,193,.5);background:var(--glass-b);backdrop-filter:blur(12px);font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:600;color:var(--text);outline:none;box-shadow:0 8px 24px var(--shadow-pink);transition:border-color .2s,box-shadow .2s}
-#searchInput::placeholder{color:var(--text-light);font-weight:500}
-#searchInput:focus{border-color:var(--pink-deep);box-shadow:0 0 0 4px rgba(255,141,161,.15),0 8px 24px var(--shadow-pink)}
-.search-count{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:.8rem;font-weight:700;color:var(--text-light);background:rgba(255,182,193,.25);padding:3px 10px;border-radius:20px;display:none}
-#searchResults{display:none;background:var(--glass-b);border-radius:20px;border:2px solid rgba(255,182,193,.4);box-shadow:0 16px 40px var(--shadow-pink);overflow:hidden;margin-top:10px}
-.search-result-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid rgba(255,182,193,.2);cursor:pointer;transition:background .15s}
-.search-result-item:last-child{border-bottom:none}
-.search-result-item:hover{background:var(--pink-soft)}
-.sri-cmd{font-family:'Fredoka',sans-serif;font-size:1rem;font-weight:600;color:var(--pink-deep);min-width:130px}
-.sri-desc{font-size:.85rem;color:var(--text-light);font-weight:500}
-.sri-cat{margin-left:auto;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
-.sri-cat.general{background:var(--blue-soft);color:#4a7a95}
-.sri-cat.moderation{background:var(--pink-soft);color:var(--pink-deep)}
-.sri-cat.config{background:var(--purple-soft);color:#7a52b0}
-.search-no-result{padding:28px;text-align:center;font-weight:600;color:var(--text-light)}
-.beginner-guide{background:var(--glass);border-radius:24px;border:2px solid var(--white);padding:24px 28px;margin-bottom:28px;box-shadow:0 8px 24px var(--shadow-soft)}
-.guide-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.guide-header h3{font-family:'Fredoka',sans-serif;font-size:1.1rem;color:var(--text)}
-.guide-header .pill{background:var(--pink-soft);color:var(--pink-deep);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px}
-.guide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.guide-card{background:var(--white);border-radius:16px;padding:14px 16px;border:2px solid rgba(255,182,193,.2);display:flex;flex-direction:column;gap:5px}
-.guide-card code{font-family:'Fredoka',monospace;font-size:1rem;color:var(--pink-deep);background:var(--pink-soft);padding:3px 10px;border-radius:8px;display:inline-block;width:fit-content}
-.guide-card p{font-size:.82rem;color:var(--text-light);font-weight:500}
-.section-card{background:var(--glass);border-radius:28px;padding:32px;margin-bottom:32px;border:2px solid var(--white);box-shadow:0 12px 32px var(--shadow-soft);backdrop-filter:blur(12px)}
-.section-card h2{font-family:'Fredoka',sans-serif;font-size:1.6rem;text-transform:lowercase;letter-spacing:-.3px;margin-bottom:20px;padding-bottom:12px;border-bottom:2px dashed rgba(0,0,0,.05);display:flex;align-items:center;gap:10px}
-.section-card h2 .section-count{font-size:.75rem;font-weight:700;padding:4px 12px;border-radius:20px;font-family:'Quicksand',sans-serif}
-.command-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.command-item{background:rgba(255,255,255,.65);border-radius:18px;padding:18px;border:2px solid var(--white);transition:all .22s cubic-bezier(.175,.885,.32,1.275);display:flex;flex-direction:column;gap:7px}
-.command-item:hover{background:var(--white);transform:translateY(-4px) scale(1.015)}
-.command-trigger{font-family:'Fredoka',sans-serif;font-size:1.05rem;font-weight:600;display:flex;align-items:center;gap:7px}
-.command-trigger::before{content:"✦";font-size:.75rem;opacity:.7}
-.command-desc{font-size:.83rem;color:var(--text-light);font-weight:500;line-height:1.5}
-.utility-sec h2{color:var(--blue)}
-.utility-sec .section-count{background:var(--blue-soft);color:#4a7a95}
-.utility-sec .command-item:hover{border-color:var(--blue);box-shadow:0 8px 20px rgba(143,174,196,.2)}
-.utility-sec .command-trigger{color:#4a7a95}
-.utility-sec .command-trigger::before{color:var(--blue)}
-.mod-sec h2{color:var(--pink-deep)}
-.mod-sec .section-count{background:var(--pink-soft);color:var(--pink-deep)}
-.mod-sec .command-item:hover{border-color:var(--pink-deep);box-shadow:0 8px 20px rgba(255,141,161,.2)}
-.mod-sec .command-trigger{color:#d9607a}
-.mod-sec .command-trigger::before{color:var(--pink-deep)}
-.config-sec h2{color:var(--purple)}
-.config-sec .section-count{background:var(--purple-soft);color:#7a52b0}
-.config-sec .command-item:hover{border-color:var(--purple);box-shadow:0 8px 20px rgba(188,160,220,.2)}
-.config-sec .command-trigger{color:#7a52b0}
-.config-sec .command-trigger::before{color:var(--purple)}
-mark{background:#fff4b0;border-radius:3px;padding:0 2px}
-.del-btn{display:none;margin-top:4px;align-self:flex-end;background:#fff0ec;border:1px solid #f5c4b8;color:#c06050;border-radius:8px;padding:3px 9px;font-size:.72rem;font-weight:700;cursor:pointer;transition:background .15s}
-.command-item:hover .del-btn.visible{display:inline-block}
-.command-item .del-btn.visible:hover{background:#fde0d8}
+        .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: absolute;
+            top: 15px;
+        }
 
-/* ══ ADMIN PANEL ══ */
-.admin-lock-screen{background:var(--glass);backdrop-filter:blur(20px);border-radius:32px;border:2px solid var(--white);box-shadow:0 20px 60px var(--shadow-pink);padding:60px 48px;text-align:center;max-width:440px;margin:60px auto}
-.admin-lock-screen .lock-icon{font-size:3.5rem;margin-bottom:16px}
-.admin-lock-screen h2{font-family:'Fredoka',sans-serif;font-size:2rem;color:var(--pink-deep);margin-bottom:8px}
-.admin-lock-screen p{font-size:.88rem;color:var(--text-light);font-weight:500;margin-bottom:28px}
-.pass-wrap{position:relative;margin-bottom:16px}
-.pass-input{width:100%;padding:14px 48px 14px 20px;border-radius:18px;border:2px solid rgba(255,182,193,.5);background:var(--glass-b);font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:600;color:var(--text);outline:none;transition:border-color .2s;box-shadow:0 4px 16px var(--shadow-pink)}
-.pass-input:focus{border-color:var(--pink-deep);box-shadow:0 0 0 4px rgba(255,141,161,.15),0 4px 16px var(--shadow-pink)}
-.pass-eye{position:absolute;right:16px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1rem;color:var(--text-light);background:none;border:none;padding:0}
-.btn-unlock{width:100%;background:linear-gradient(135deg,#ff8da1,#ffb6c1);color:#fff;border:none;padding:14px;border-radius:18px;font-family:'Fredoka',sans-serif;font-size:1.05rem;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:0 8px 24px rgba(255,141,161,.4);margin-bottom:12px}
-.btn-unlock:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,141,161,.5)}
-.lock-error{color:#e05050;font-size:.85rem;font-weight:700;display:none;margin-top:8px}
-.lock-error.show{display:block}
+        .eye {
+            width: 14px;
+            height: 14px;
+            background-color: var(--text-main);
+            border-radius: 50%;
+            position: relative;
+        }
 
-/* admin dashboard */
-.admin-panel{display:none}
-.admin-panel.unlocked{display:block}
-.admin-topbar{display:flex;align-items:center;justify-content:space-between;background:var(--glass-b);border-radius:22px;border:2px solid var(--white);box-shadow:0 8px 24px var(--shadow-pink);padding:18px 28px;margin-bottom:28px;flex-wrap:wrap;gap:12px}
-.admin-topbar h2{font-family:'Fredoka',sans-serif;font-size:1.4rem;color:var(--pink-deep)}
-.admin-badge{background:linear-gradient(135deg,#ffd6e8,var(--pink-soft));color:#c03060;font-size:.75rem;font-weight:700;padding:5px 14px;border-radius:20px;border:2px solid rgba(255,182,193,.5);display:inline-flex;align-items:center;gap:6px}
-.btn-logout{background:transparent;color:var(--text-light);border:2px solid rgba(255,182,193,.4);padding:8px 18px;border-radius:12px;font-family:'Quicksand',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s}
-.btn-logout:hover{background:#fff0ec;border-color:#f5c4b8;color:#c05040}
-.admin-sections{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
-@media(max-width:700px){.admin-sections{grid-template-columns:1fr}}
-.admin-card{background:var(--glass);border-radius:22px;border:2px solid var(--white);box-shadow:0 8px 24px var(--shadow-soft);padding:28px}
-.admin-card h3{font-family:'Fredoka',sans-serif;font-size:1.2rem;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-.form-group label{font-size:.78rem;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.7px}
-.form-group input,.form-group select,.form-group textarea{padding:11px 15px;border-radius:14px;border:2px solid rgba(255,182,193,.4);background:var(--white);font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:600;color:var(--text);outline:none;transition:border-color .2s;resize:vertical}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--pink-deep);box-shadow:0 0 0 3px rgba(255,141,161,.12)}
-.form-group textarea{min-height:75px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn-add{background:linear-gradient(135deg,#ff8da1,#ffb6c1);color:#fff;border:none;padding:12px 24px;border-radius:14px;font-family:'Fredoka',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:0 6px 18px rgba(255,141,161,.35)}
-.btn-add:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(255,141,161,.45)}
-.btn-secondary{background:var(--white);color:var(--text-light);border:2px solid rgba(255,182,193,.4);padding:11px 20px;border-radius:14px;font-family:'Fredoka',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s}
-.btn-secondary:hover{background:var(--pink-soft);border-color:var(--pink);color:var(--pink-deep)}
-.btn-danger{background:transparent;color:#c05040;border:2px solid #f5c4b8;padding:11px 20px;border-radius:14px;font-family:'Fredoka',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s}
-.btn-danger:hover{background:#fff0ec;border-color:#e07060}
-.btn-export{background:linear-gradient(135deg,var(--purple-soft),var(--lav-soft));color:#7a52b0;border:2px solid var(--purple);padding:12px 24px;border-radius:14px;font-family:'Fredoka',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .2s}
-.btn-export:hover{transform:translateY(-2px);background:var(--purple);color:#fff}
-.admin-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
-.admin-cmd-table{background:var(--glass);border-radius:22px;border:2px solid var(--white);box-shadow:0 8px 24px var(--shadow-soft);padding:24px;margin-bottom:24px;grid-column:1/-1}
-.cmd-table-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-.cmd-table-header h3{font-family:'Fredoka',sans-serif;font-size:1.2rem;color:var(--text)}
-#adminFilter{padding:8px 14px;border-radius:12px;border:2px solid rgba(255,182,193,.4);background:var(--white);font-family:'Quicksand',sans-serif;font-size:.85rem;font-weight:600;color:var(--text);outline:none}
-#adminFilter:focus{border-color:var(--pink-deep)}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:separate;border-spacing:0 6px}
-table thead th{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-light);padding:0 14px 8px;text-align:left}
-table tbody tr{background:rgba(255,255,255,.65);border-radius:12px;transition:background .15s}
-table tbody tr:hover{background:var(--white)}
-table tbody td{padding:12px 14px;font-size:.86rem;font-weight:600;color:var(--text)}
-table tbody td:first-child{border-radius:12px 0 0 12px;font-family:'Fredoka',sans-serif;color:var(--pink-deep)}
-table tbody td:last-child{border-radius:0 12px 12px 0}
-.cat-tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:700}
-.cat-tag.general{background:var(--blue-soft);color:#4a7a95}
-.cat-tag.moderation{background:var(--pink-soft);color:var(--pink-deep)}
-.cat-tag.config{background:var(--purple-soft);color:#7a52b0}
-.row-del{background:#fff0ec;border:1px solid #f5c4b8;color:#c06050;border-radius:7px;padding:3px 9px;font-size:.72rem;font-weight:700;cursor:pointer;transition:background .15s}
-.row-del:hover{background:#fde0d8}
-.custom-tag{background:var(--mint-soft);color:#2e8a5a;font-size:.7rem;font-weight:700;padding:2px 7px;border-radius:8px;margin-left:4px}
+        .eye::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+        }
 
-/* toast */
-.toast{position:fixed;bottom:28px;right:28px;background:var(--white);border:2px solid var(--pink);color:var(--pink-deep);padding:14px 22px;border-radius:16px;font-weight:700;font-size:.9rem;box-shadow:0 8px 24px var(--shadow-pink);z-index:999;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.175,.885,.32,1.275);pointer-events:none}
-.toast.show{transform:translateY(0);opacity:1}
+        .blush {
+            width: 16px;
+            height: 8px;
+            background-color: var(--accent-pink);
+            border-radius: 50%;
+            position: absolute;
+            top: 32px;
+            opacity: 0.7;
+        }
 
-/* footer */
-footer{text-align:center;padding:32px 0 48px;font-size:.83rem;font-weight:700;color:var(--text-light);letter-spacing:.4px}
+        .blush.left { left: -6px; }
+        .blush.right { right: -6px; }
 
-/* mobile */
-.menu-toggle{display:none;position:fixed;top:16px;left:16px;z-index:200;background:var(--white);border:2px solid var(--pink);border-radius:12px;padding:8px 12px;font-size:1.1rem;cursor:pointer;color:var(--pink-deep);box-shadow:0 4px 12px var(--shadow-pink)}
-@media(max-width:820px){
-  .layout{flex-direction:column}
-  .sidebar{position:fixed;top:0;left:-280px;height:100vh;z-index:100;transition:left .3s;width:260px}
-  .sidebar.open{left:0}
-  .menu-toggle{display:flex;align-items:center;gap:6px;font-size:.9rem}
-  .page{padding:70px 18px 60px}
-  .hero{padding:36px 20px}
-  .hero h1{font-size:2.2rem}
-  .stats-grid{grid-template-columns:repeat(2,1fr)}
-  .admin-sections{grid-template-columns:1fr}
-  .form-row{grid-template-columns:1fr}
-  .dev-card{flex-direction:column;text-align:center}
-  .dev-links{justify-content:center}
-}
-</style>
+        .mouth {
+            width: 14px;
+            height: 8px;
+            border: 3px solid var(--text-main);
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .bot-status {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            background: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 2px solid var(--pastel-purple);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #a3f7bf;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 6px #a3f7bf;
+        }
+
+        .bot-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .bot-tagline {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            max-width: 240px;
+            line-height: 1.4;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 220px;
+        }
+
+        .btn {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px 24px;
+            border-radius: 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-invite {
+            background-color: var(--pastel-pink);
+            color: var(--text-main);
+            border: 3px solid var(--text-main);
+            box-shadow: 0 5px 0 var(--text-main);
+        }
+
+        .btn-invite:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 var(--text-main);
+        }
+
+        .btn-invite:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 var(--text-main);
+        }
+
+        .btn-tutorial {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 3px dashed var(--pastel-purple);
+        }
+
+        .btn-tutorial:hover {
+            background-color: #fbf7ff;
+            border-style: solid;
+        }
+
+        .right-panel {
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .letter-card {
+            background-color: var(--pastel-yellow);
+            border: 3px solid var(--text-main);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            position: relative;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.02);
+            margin-bottom: 40px;
+        }
+
+        .letter-card::before {
+            content: "💌";
+            position: absolute;
+            top: -18px;
+            right: 25px;
+            font-size: 1.5rem;
+        }
+
+        .letter-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-style: italic;
+        }
+
+        .letter-signature {
+            margin-top: 15px;
+            text-align: right;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .feature-item {
+            background: #fff;
+            border: 2px solid #f0e6ef;
+            padding: 16px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .f1 { background-color: #e8fccf; }
+        .f2 { background-color: #ffdfd3; }
+        .f3 { background-color: #dcf7fa; }
+        .f4 { background-color: #f3e7ff; }
+
+        .feature-info h4 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .feature-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .left-panel {
+                border-right: none;
+                border-bottom: 4px dashed var(--pastel-pink);
+                padding: 45px 30px;
+            }
+            .right-panel {
+                padding: 45px 30px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<button class="menu-toggle" onclick="toggleSidebar()">☰ Menu</button>
+    <div class="container">
+        <div class="left-panel">
+            <div class="bot-avatar-container">
+                <div class="bot-avatar">
+                    <div class="bot-face">
+                        <div class="eyes">
+                            <div class="eye"></div>
+                            <div class="eye"></div>
+                        </div>
+                        <div class="blush left"></div>
+                        <div class="blush right"></div>
+                        <div class="mouth"></div>
+                    </div>
+                </div>
+                <div class="bot-status">
+                    <span class="status-dot"></span> active
+                </div>
+            </div>
 
-<div class="layout">
+            <h1 class="bot-title">Mochi Bot</h1>
+            <p class="bot-tagline">A cozy, cute companion designed to bring joy and neat features to your virtual space.</p>
 
-<!-- ── SIDEBAR ── -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-logo">
-    <img src="https://i.ibb.co/TxY83FLZ/f78aa6c969dd76df0b0ad5c501059060.jpg" alt="Shouffle Logo">
-    <div class="brand">Shouffle <span>dashboard v2.0</span></div>
-  </div>
-  <nav class="sidebar-nav">
-    <div class="nav-label">Main</div>
-    <a href="#" class="nav-link pink active" onclick="showPage('home',this)">
-      <span class="icon">🏠</span> Home
-    </a>
-    <a href="#" class="nav-link blue" onclick="showPage('docs',this)">
-      <span class="icon">📖</span> Commands
-    </a>
-    <div class="nav-label">Admin</div>
-    <a href="#" class="nav-link lav" onclick="showPage('admin',this)">
-      <span class="icon">🔐</span> Admin Panel
-    </a>
-  </nav>
-  <div class="sidebar-footer">
-    © 2026 Shouffle Bot<br>
-    developed by Yuvraj Ab<br>
-    <span style="font-size:.68rem;opacity:.7">founded June 2, 2026</span>
-  </div>
-</aside>
-
-<!-- ── MAIN ── -->
-<main class="main">
-
-<!-- ════ HOME PAGE ════ -->
-<div class="page active" id="page-home">
-
-  <div class="hero">
-    <img class="hero-avatar" src="https://i.ibb.co/TxY83FLZ/f78aa6c969dd76df0b0ad5c501059060.jpg" alt="Shouffle">
-    <h1>✿ Shouffle</h1>
-    <p class="tagline">A kawaii, feature-rich Discord bot built for soft communities. Clean aesthetics, powerful moderation, and easy configuration — all in one bot.</p>
-    <div class="hero-badges">
-      <span class="badge-pill online">🟢 Online &amp; Running</span>
-      <span class="badge-pill cmds">☁️ 60+ Commands</span>
-      <span class="badge-pill prefix">✦ /command or ?command</span>
-    </div>
-    <div class="hero-btns">
-      <a class="btn-invite" href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=8&scope=bot%20applications.commands" target="_blank">
-        ✦ Invite Shouffle
-      </a>
-      <button class="btn-docs" onclick="showPage('docs', document.querySelector('.nav-link.blue'))">
-        📖 View Commands
-      </button>
-    </div>
-  </div>
-
-  <!-- status bar -->
-  <div class="status-bar">
-    <div class="status-left">
-      <div class="status-dot"></div>
-      <div class="status-text">Bot is <span>Online</span> and fully operational</div>
-    </div>
-    <div class="status-details">
-      <div class="status-item">
-        <div class="status-item-val" id="uptime-display">—</div>
-        <div class="status-item-lbl">Uptime</div>
-      </div>
-      <div class="status-item">
-        <div class="status-item-val">60+</div>
-        <div class="status-item-lbl">Commands</div>
-      </div>
-      <div class="status-item">
-        <div class="status-item-val">discord.py</div>
-        <div class="status-item-lbl">Library</div>
-      </div>
-      <div class="status-item">
-        <div class="status-item-val">2.x</div>
-        <div class="status-item-lbl">Version</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- stats -->
-  <div class="section-header">✦ Bot Stats</div>
-  <div class="stats-grid">
-    <div class="stat-card pink">
-      <div class="stat-icon">🛡️</div>
-      <div class="stat-value">16</div>
-      <div class="stat-label">Mod Commands</div>
-    </div>
-    <div class="stat-card blue">
-      <div class="stat-icon">☁️</div>
-      <div class="stat-value">27</div>
-      <div class="stat-label">Utility Commands</div>
-    </div>
-    <div class="stat-card purple">
-      <div class="stat-icon">⚙️</div>
-      <div class="stat-value">17</div>
-      <div class="stat-label">Config Commands</div>
-    </div>
-    <div class="stat-card mint">
-      <div class="stat-icon">⚡</div>
-      <div class="stat-value">&lt;100ms</div>
-      <div class="stat-label">Avg Latency</div>
-    </div>
-  </div>
-
-  <!-- features -->
-  <div class="section-header">✿ Features</div>
-  <div class="features-grid">
-    <div class="feature-card fc-pink">
-      <div class="fc-icon">🛡️</div>
-      <h3>Advanced Moderation</h3>
-      <p>Full ban, mute, kick, warn, and auto-mod system with escalating punishments and configurable thresholds.</p>
-    </div>
-    <div class="feature-card fc-blue">
-      <div class="fc-icon">👋</div>
-      <h3>Welcome System</h3>
-      <p>Beautiful, customizable welcome cards with image support, placeholder variables, and DM notifications.</p>
-    </div>
-    <div class="feature-card fc-purple">
-      <div class="fc-icon">🎫</div>
-      <h3>Ticket Support</h3>
-      <p>Interactive ticket panels for staff-user communication with logging, categories, and role access control.</p>
-    </div>
-    <div class="feature-card fc-mint">
-      <div class="fc-icon">✨</div>
-      <h3>Aura System</h3>
-      <p>Weekly leaderboards, interactive dropdown navigation, and social aura point tracking for members.</p>
-    </div>
-    <div class="feature-card fc-peach">
-      <div class="fc-icon">🎭</div>
-      <h3>Reaction Roles</h3>
-      <p>Deploy interactive reaction role panels with DM notifications and multi-role configuration support.</p>
-    </div>
-    <div class="feature-card fc-lav">
-      <div class="fc-icon">🔊</div>
-      <h3>Voice Channels</h3>
-      <p>Temporary voice channel system with full control panel — name, limit, privacy, and ownership settings.</p>
-    </div>
-  </div>
-
-  <!-- invite section -->
-  <div class="invite-section">
-    <h2>✦ Add Shouffle to Your Server</h2>
-    <p>One click to invite. Shouffle is free, lightweight, and packed with tools built for soft community servers.</p>
-    <a class="btn-invite" href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=8&scope=bot%20applications.commands" target="_blank">
-      🌸 Invite Shouffle Now
-    </a>
-  </div>
-
-  <!-- dev info -->
-  <div class="section-header">🌸 Developer</div>
-  <div class="dev-card">
-    <div class="dev-avatar">🌸</div>
-    <div class="dev-info">
-      <h2>Yuvraj Ab</h2>
-      <p>Developer of Shouffle Bot — a passion project combining clean aesthetics with powerful Discord community infrastructure. Shouffle was founded on June 2, 2026 and is continuously being improved.</p>
-      <div class="dev-links">
-        <a class="dev-link discord" href="#">🎮 Discord: @yuvraj</a>
-        <a class="dev-link github" href="#">🐱 GitHub</a>
-      </div>
-    </div>
-  </div>
-
-  <footer>© copyright 2026 @shouffle.bot | all rights reserved</footer>
-</div>
-
-<!-- ════ DOCS PAGE ════ -->
-<div class="page docs-page" id="page-docs">
-  <div class="page-header">
-    <h1>✿ Shouffle Docs</h1>
-    <p>Browse all available commands. Use search to quickly find what you need.</p>
-    <span class="badge">Triggers: /command &nbsp;or&nbsp; ?command</span>
-  </div>
-
-  <div class="search-wrap">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" placeholder="Search commands... e.g. ban, welcome, ticket" autocomplete="off">
-    <span class="search-count" id="searchCount"></span>
-  </div>
-  <div id="searchResults" style="display:none"></div>
-
-  <div class="beginner-guide" id="beginner">
-    <div class="guide-header">
-      <h3>Quick Start Guide</h3>
-      <span class="pill">For beginners ✿</span>
-    </div>
-    <div class="guide-grid">
-      <div class="guide-card"><code>&lt;argument&gt;</code><p>Required — you must fill this in to run the command.</p></div>
-      <div class="guide-card"><code>[argument]</code><p>Optional — you can leave this blank if you want.</p></div>
-      <div class="guide-card"><code>?command</code><p>Prefix style — type directly in chat with the <strong>?</strong> symbol.</p></div>
-      <div class="guide-card"><code>/command</code><p>Slash style — Discord's built-in autocomplete menu.</p></div>
-      <div class="guide-card"><code>?help</code><p>Shows all available commands inside the bot's help panel.</p></div>
-      <div class="guide-card"><code>?botinfo</code><p>See Shouffle's stats, uptime, and build information.</p></div>
-    </div>
-  </div>
-
-  <!-- General -->
-  <section id="general" class="section-card utility-sec">
-    <h2>☁️ general &amp; utility <span class="section-count" id="count-general">27 commands</span></h2>
-    <div class="command-list" id="list-general">
-      <div class="command-item" data-cmd="ping" data-cat="general"><div class="command-trigger">ping</div><div class="command-desc">Tests the connection speed between Discord and Shouffle.</div></div>
-      <div class="command-item" data-cmd="uptime" data-cat="general"><div class="command-trigger">uptime</div><div class="command-desc">Shows how long Shouffle has been online without interruption.</div></div>
-      <div class="command-item" data-cmd="botinfo" data-cat="general"><div class="command-trigger">botinfo</div><div class="command-desc">Displays details about Shouffle, including statistics and build info.</div></div>
-      <div class="command-item" data-cmd="serverinfo" data-cat="general"><div class="command-trigger">serverinfo</div><div class="command-desc">Provides a neat breakdown of the server's owner, age, and features.</div></div>
-      <div class="command-item" data-cmd="roleinfo" data-cat="general"><div class="command-trigger">roleinfo</div><div class="command-desc">Shows deep configurations, permissions, and settings for a specific role.</div></div>
-      <div class="command-item" data-cmd="membercount" data-cat="general"><div class="command-trigger">membercount</div><div class="command-desc">Counts the total number of real users and bots in the server.</div></div>
-      <div class="command-item" data-cmd="inviteinfo" data-cat="general"><div class="command-trigger">inviteinfo</div><div class="command-desc">Analyzes a server invite link to find its origin and creator details.</div></div>
-      <div class="command-item" data-cmd="emojiinfo" data-cat="general"><div class="command-trigger">emojiinfo</div><div class="command-desc">Reveals ID codes and direct image assets for any server emoji.</div></div>
-      <div class="command-item" data-cmd="stick" data-cat="general"><div class="command-trigger">stick</div><div class="command-desc">Pins a chosen text to the bottom of a text channel dynamically.</div></div>
-      <div class="command-item" data-cmd="stickremove" data-cat="general"><div class="command-trigger">stickremove</div><div class="command-desc">Removes the current active sticky message from the channel.</div></div>
-      <div class="command-item" data-cmd="autoresponder" data-cat="general"><div class="command-trigger">autoresponder</div><div class="command-desc">Sets up Shouffle to automatically reply to custom keyword triggers.</div></div>
-      <div class="command-item" data-cmd="removeresponder" data-cat="general"><div class="command-trigger">removeresponder</div><div class="command-desc">Deletes an active autoresponder keyword from the trigger list.</div></div>
-      <div class="command-item" data-cmd="listresponders" data-cat="general"><div class="command-trigger">listresponders</div><div class="command-desc">Displays all custom auto-replies currently active in the server.</div></div>
-      <div class="command-item" data-cmd="say" data-cat="general"><div class="command-trigger">say</div><div class="command-desc">Forces the bot to mirror and send exactly what text you type.</div></div>
-      <div class="command-item" data-cmd="embed" data-cat="general"><div class="command-trigger">embed</div><div class="command-desc">Builds stylized, structured text blocks using rich card layouts.</div></div>
-      <div class="command-item" data-cmd="roll" data-cat="general"><div class="command-trigger">roll</div><div class="command-desc">Generates a randomized dice roll outcome for mini-games.</div></div>
-      <div class="command-item" data-cmd="coinflip" data-cat="general"><div class="command-trigger">coinflip</div><div class="command-desc">Flips a virtual coin to settle simple server choices (Heads/Tails).</div></div>
-      <div class="command-item" data-cmd="choose" data-cat="general"><div class="command-trigger">choose</div><div class="command-desc">Randomly picks an option from multiple choices you provide.</div></div>
-      <div class="command-item" data-cmd="8ball" data-cat="general"><div class="command-trigger">8ball</div><div class="command-desc">Answers questions with random fortune-telling logic outcomes.</div></div>
-      <div class="command-item" data-cmd="calculate" data-cat="general"><div class="command-trigger">calculate</div><div class="command-desc">Acts as a direct math solver inside the chat interface.</div></div>
-      <div class="command-item" data-cmd="snipe" data-cat="general"><div class="command-trigger">snipe</div><div class="command-desc">Displays the content of the last deleted message in the channel.</div></div>
-      <div class="command-item" data-cmd="steal" data-cat="general"><div class="command-trigger">steal</div><div class="command-desc">Clones external custom emojis or stickers to your server.</div></div>
-      <div class="command-item" data-cmd="avatar" data-cat="general"><div class="command-trigger">avatar</div><div class="command-desc">Grabs the high-resolution profile icon of any designated user.</div></div>
-      <div class="command-item" data-cmd="banner" data-cat="general"><div class="command-trigger">banner</div><div class="command-desc">Grabs the high-resolution background banner of a user.</div></div>
-      <div class="command-item" data-cmd="afk" data-cat="general"><div class="command-trigger">afk</div><div class="command-desc">Sets a custom status notice when you are away from keyboard.</div></div>
-      <div class="command-item" data-cmd="afkremove" data-cat="general"><div class="command-trigger">afkremove</div><div class="command-desc">Clears your active AFK status immediately upon returning.</div></div>
-      <div class="command-item" data-cmd="poll" data-cat="general"><div class="command-trigger">poll</div><div class="command-desc">Creates a custom public reaction poll for members to cast votes.</div></div>
-    </div>
-  </section>
-
-  <!-- Moderation -->
-  <section id="moderation" class="section-card mod-sec">
-    <h2>🛡️ moderation operations <span class="section-count" id="count-moderation">16 commands</span></h2>
-    <div class="command-list" id="list-moderation">
-      <div class="command-item" data-cmd="mute" data-cat="moderation"><div class="command-trigger">mute</div><div class="command-desc">Applies a text and voice channel timeout to a target member.</div></div>
-      <div class="command-item" data-cmd="unmute" data-cat="moderation"><div class="command-trigger">unmute</div><div class="command-desc">Removes any active mute timeout restrictions from a profile.</div></div>
-      <div class="command-item" data-cmd="kick" data-cat="moderation"><div class="command-trigger">kick</div><div class="command-desc">Removes a target user from the server while leaving an open rejoin route.</div></div>
-      <div class="command-item" data-cmd="softban" data-cat="moderation"><div class="command-trigger">softban</div><div class="command-desc">Bans and instantly unbans a user to wipe their recent message history.</div></div>
-      <div class="command-item" data-cmd="ban" data-cat="moderation"><div class="command-trigger">ban</div><div class="command-desc">Permanently restricts a user ID from entering the server.</div></div>
-      <div class="command-item" data-cmd="unban" data-cat="moderation"><div class="command-trigger">unban</div><div class="command-desc">Pulls a user ID out of the server's central ban ledger.</div></div>
-      <div class="command-item" data-cmd="warn" data-cat="moderation"><div class="command-trigger">warn</div><div class="command-desc">Logs a recorded infraction point on a user profile for rule tracking.</div></div>
-      <div class="command-item" data-cmd="clearwarns" data-cat="moderation"><div class="command-trigger">clearwarns</div><div class="command-desc">Resets and deletes all logged warning records for a user.</div></div>
-      <div class="command-item" data-cmd="purge" data-cat="moderation"><div class="command-trigger">purge</div><div class="command-desc">Deletes a specified number of messages from the channel quickly.</div></div>
-      <div class="command-item" data-cmd="mediaonly" data-cat="moderation"><div class="command-trigger">mediaonly</div><div class="command-desc">Locks channels to automatically drop text without links or files.</div></div>
-      <div class="command-item" data-cmd="unmediaonly" data-cat="moderation"><div class="command-trigger">unmediaonly</div><div class="command-desc">Reverts channels to allow a normal mix of text and files.</div></div>
-      <div class="command-item" data-cmd="roleadd" data-cat="moderation"><div class="command-trigger">roleadd</div><div class="command-desc">Assigns an existing server role directly to a member's profile.</div></div>
-      <div class="command-item" data-cmd="roleremove" data-cat="moderation"><div class="command-trigger">roleremove</div><div class="command-desc">Strips an active server role off a target member's profile.</div></div>
-      <div class="command-item" data-cmd="deafen" data-cat="moderation"><div class="command-trigger">deafen</div><div class="command-desc">Mutes all audio reception for a user inside active voice chats.</div></div>
-      <div class="command-item" data-cmd="undeafen" data-cat="moderation"><div class="command-trigger">undeafen</div><div class="command-desc">Restores regular voice listening for a deafened user.</div></div>
-      <div class="command-item" data-cmd="vcban" data-cat="moderation"><div class="command-trigger">vcban</div><div class="command-desc">Disconnects and blocks a user from joining any voice channels.</div></div>
-    </div>
-  </section>
-
-  <!-- Config -->
-  <section id="config" class="section-card config-sec">
-    <h2>⚙️ server setup &amp; config <span class="section-count" id="count-config">17 commands</span></h2>
-    <div class="command-list" id="list-config">
-      <div class="command-item" data-cmd="welcomesetup" data-cat="config"><div class="command-trigger">welcomesetup</div><div class="command-desc">Launches an interactive prompt to initialize welcome message scripts.</div></div>
-      <div class="command-item" data-cmd="welcomechannel" data-cat="config"><div class="command-trigger">welcomechannel</div><div class="command-desc">Designates the channel where member join cards will be posted.</div></div>
-      <div class="command-item" data-cmd="welcometest" data-cat="config"><div class="command-trigger">welcometest</div><div class="command-desc">Simulates a fake member entry to check welcome text rendering.</div></div>
-      <div class="command-item" data-cmd="welcomeconfig" data-cat="config"><div class="command-trigger">welcomeconfig</div><div class="command-desc">Reviews all configuration variables set for your active welcome setup.</div></div>
-      <div class="command-item" data-cmd="ticketsetup" data-cat="config"><div class="command-trigger">ticketsetup</div><div class="command-desc">Deploys automated support panels for staff-user communication.</div></div>
-      <div class="command-item" data-cmd="ticketconfig" data-cat="config"><div class="command-trigger">ticketconfig</div><div class="command-desc">Configures access groups, categories, and logging for tickets.</div></div>
-      <div class="command-item" data-cmd="autorole" data-cat="config"><div class="command-trigger">autorole</div><div class="command-desc">Saves roles that Shouffle will auto-assign as new users join.</div></div>
-      <div class="command-item" data-cmd="botlogs enable" data-cat="config"><div class="command-trigger">botlogs enable</div><div class="command-desc">Enables extensive background server action auditing hooks.</div></div>
-      <div class="command-item" data-cmd="botlogs disable" data-cat="config"><div class="command-trigger">botlogs disable</div><div class="command-desc">Deactivates background logging and text change notifications.</div></div>
-      <div class="command-item" data-cmd="vcsetup" data-cat="config"><div class="command-trigger">vcsetup</div><div class="command-desc">Sets up a temporary voice channel system for your server.</div></div>
-      <div class="command-item" data-cmd="vcpanel" data-cat="config"><div class="command-trigger">vcpanel</div><div class="command-desc">Re-sends the voice control panel if the interface is deleted.</div></div>
-      <div class="command-item" data-cmd="rr create" data-cat="config"><div class="command-trigger">rr create</div><div class="command-desc">Sets up a reaction role system for your server.</div></div>
-      <div class="command-item" data-cmd="rr dm" data-cat="config"><div class="command-trigger">rr dm</div><div class="command-desc">Enables DM notification when a user picks up a reaction role.</div></div>
-      <div class="command-item" data-cmd="rr delete" data-cat="config"><div class="command-trigger">rr delete</div><div class="command-desc">Deletes the existing reaction role panel from the server.</div></div>
-      <div class="command-item" data-cmd="automod enable" data-cat="config"><div class="command-trigger">automod enable</div><div class="command-desc">Enables automoderation for the server.</div></div>
-      <div class="command-item" data-cmd="automod disable" data-cat="config"><div class="command-trigger">automod disable</div><div class="command-desc">Disables automoderation for the server.</div></div>
-      <div class="command-item" data-cmd="automod config" data-cat="config"><div class="command-trigger">automod config</div><div class="command-desc">Opens the automoderation settings editor for the server.</div></div>
-    </div>
-  </section>
-
-  <footer>© copyright 2026 @shouffle.bot | all rights reserved</footer>
-</div>
-
-<!-- ════ ADMIN PAGE ════ -->
-<div class="page" id="page-admin">
-
-  <!-- LOCK SCREEN -->
-  <div id="adminLock" class="admin-lock-screen">
-    <div class="lock-icon">🔐</div>
-    <h2>Admin Panel</h2>
-    <p>Enter the admin passcode to access the dashboard control panel.</p>
-    <div class="pass-wrap">
-      <input type="password" class="pass-input" id="passInput" placeholder="Enter passcode…" onkeydown="if(event.key==='Enter')unlockAdmin()">
-      <button class="pass-eye" onclick="togglePassEye()" id="eyeBtn">👁</button>
-    </div>
-    <button class="btn-unlock" onclick="unlockAdmin()">✦ Unlock Admin Panel</button>
-    <div class="lock-error" id="lockError">✕ Wrong passcode. Try again.</div>
-  </div>
-
-  <!-- ADMIN DASHBOARD (hidden until unlocked) -->
-  <div id="adminDash" class="admin-panel">
-    <div class="admin-topbar">
-      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-        <h2>🌸 Admin Dashboard</h2>
-        <span class="admin-badge">🔓 Admin Access</span>
-      </div>
-      <button class="btn-logout" onclick="logoutAdmin()">✕ Lock Panel</button>
-    </div>
-
-    <div class="admin-sections">
-      <!-- Add Command -->
-      <div class="admin-card">
-        <h3>✦ Add New Command</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Command Name</label>
-            <input type="text" id="newCmd" placeholder="e.g. report">
-          </div>
-          <div class="form-group">
-            <label>Category</label>
-            <select id="newCat">
-              <option value="general">☁️ General & Utility</option>
-              <option value="moderation">🛡️ Moderation</option>
-              <option value="config">⚙️ Server Config</option>
-            </select>
-          </div>
+            <div class="button-group">
+                <a href="#" class="btn btn-invite">Invite Mochi 🐾</a>
+                <a href="#" class="btn btn-tutorial" target="_blank">Tutorials (Drive) 📂</a>
+            </div>
         </div>
-        <div class="form-group">
-          <label>Description</label>
-          <textarea id="newDesc" placeholder="Describe what this command does…"></textarea>
-        </div>
-        <button class="btn-add" onclick="addCommand()">✦ Add Command</button>
-      </div>
 
-      <!-- Quick Stats -->
-      <div class="admin-card">
-        <h3>📊 Live Command Stats</h3>
-        <div style="display:flex;flex-direction:column;gap:14px;margin-top:4px">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--blue-soft);border-radius:14px">
-            <span style="font-weight:700;color:#4a7a95">☁️ General & Utility</span>
-            <span style="font-family:'Fredoka',sans-serif;font-size:1.2rem;color:#4a7a95" id="admin-count-general">27</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--pink-soft);border-radius:14px">
-            <span style="font-weight:700;color:var(--pink-deep)">🛡️ Moderation</span>
-            <span style="font-family:'Fredoka',sans-serif;font-size:1.2rem;color:var(--pink-deep)" id="admin-count-moderation">16</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--purple-soft);border-radius:14px">
-            <span style="font-weight:700;color:#7a52b0">⚙️ Server Config</span>
-            <span style="font-family:'Fredoka',sans-serif;font-size:1.2rem;color:#7a52b0" id="admin-count-config">17</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--mint-soft);border-radius:14px">
-            <span style="font-weight:700;color:#2e8a5a">✦ Total Commands</span>
-            <span style="font-family:'Fredoka',sans-serif;font-size:1.2rem;color:#2e8a5a" id="admin-count-total">60</span>
-          </div>
-        </div>
-      </div>
+        <div class="right-panel">
+            <h2 class="section-title"><span>💝</span> From My Heart</h2>
+            <div class="letter-card">
+                <p class="letter-text">
+                    "Thank you so much for dropping by! I built Mochi to be a helpful, gentle presence in your server—something simple, clean, and reliable. Seeing people use what I create honestly makes my day. I hope Mochi brings a tiny spark of comfort and ease to your community every single day."
+                </p>
+                <div class="letter-signature">— Crafted with love by Me</div>
+            </div>
 
-      <!-- Command Table (full width) -->
-      <div class="admin-card admin-cmd-table" style="grid-column:1/-1">
-        <div class="cmd-table-header">
-          <h3>📋 All Commands</h3>
-          <select id="adminFilter" onchange="renderTable()">
-            <option value="all">All Categories</option>
-            <option value="general">General & Utility</option>
-            <option value="moderation">Moderation</option>
-            <option value="config">Config</option>
-            <option value="custom">Custom Only</option>
-          </select>
+            <h2 class="section-title"><span>🌟</span> Special Abilities</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon f1">🌸</div>
+                    <div class="feature-info">
+                        <h4>Pure Aesthetic</h4>
+                        <p>Beautiful, minimalist design output.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon f2">🎵</div>
+                    <div class="feature-info">
+                        <h4>Lo-Fi Tunes</h4>
+                        <p>Calm, cozy soundtracks 24/7.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon f3">🛡️</div>
+                    <div class="feature-info">
+                        <h4>Soft Mod</h4>
+                        <p>Keeps your space clean and safe.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon f4">🎈</div>
+                    <div class="feature-info">
+                        <h4>Mini Games</h4>
+                        <p>Cute, lighthearted daily activities.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Command</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Type</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="adminTableBody"></tbody>
-          </table>
-        </div>
-      </div>
     </div>
 
-    <div class="admin-actions">
-      <button class="btn-export" onclick="exportHTML()">⬇ Export Dashboard HTML</button>
-      <button class="btn-secondary" onclick="renderTable()">🔄 Refresh Table</button>
-      <button class="btn-danger" onclick="clearCustomCmds()">🗑 Clear Custom Commands</button>
-    </div>
-
-  </div>
-
-  <footer>© copyright 2026 @shouffle.bot | all rights reserved</footer>
-</div>
-
-</main>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-// ── PAGE NAVIGATION ──
-function showPage(name, linkEl) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  if (linkEl) linkEl.classList.add('active');
-  document.getElementById('sidebar').classList.remove('open');
-  window.scrollTo(0,0);
-}
-
-// ── UPTIME DISPLAY ──
-const START = Date.now();
-setInterval(() => {
-  const s = Math.floor((Date.now() - START) / 1000);
-  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
-  const el = document.getElementById('uptime-display');
-  if (el) el.textContent = (h ? h + 'h ' : '') + (m ? m + 'm ' : '') + sec + 's';
-}, 1000);
-
-// ── ADMIN AUTH ──
-const PASS = 'Messi@370';
-function unlockAdmin() {
-  const val = document.getElementById('passInput').value;
-  if (val === PASS) {
-    document.getElementById('adminLock').style.display = 'none';
-    document.getElementById('adminDash').classList.add('unlocked');
-    renderTable();
-    updateAdminCounts();
-    showToast('🌸 Welcome, Admin!');
-  } else {
-    const err = document.getElementById('lockError');
-    err.classList.add('show');
-    document.getElementById('passInput').value = '';
-    setTimeout(() => err.classList.remove('show'), 2500);
-  }
-}
-function logoutAdmin() {
-  document.getElementById('adminLock').style.display = '';
-  document.getElementById('adminDash').classList.remove('unlocked');
-  document.getElementById('passInput').value = '';
-  showToast('🔒 Panel locked.');
-}
-function togglePassEye() {
-  const inp = document.getElementById('passInput');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
-}
-
-// ── SEARCH ──
-const searchInput  = document.getElementById('searchInput');
-const searchResult = document.getElementById('searchResults');
-const searchCount  = document.getElementById('searchCount');
-searchInput.addEventListener('input', () => {
-  const q = searchInput.value.trim().toLowerCase();
-  if (!q) { searchResult.style.display='none'; searchCount.style.display='none'; return; }
-  const allItems = document.querySelectorAll('#page-docs .command-item');
-  const matches = [];
-  allItems.forEach(item => {
-    const cmd  = (item.dataset.cmd||'').toLowerCase();
-    const desc = item.querySelector('.command-desc')?.textContent.toLowerCase()||'';
-    if (cmd.includes(q)||desc.includes(q)) matches.push({cmd:item.dataset.cmd,desc:item.querySelector('.command-desc').textContent,cat:item.dataset.cat});
-  });
-  searchCount.textContent = matches.length + ' found';
-  searchCount.style.display = 'inline-block';
-  if (matches.length === 0) {
-    searchResult.innerHTML = `<div class="search-no-result">✦ No commands found for "<strong>${esc(q)}</strong>"</div>`;
-  } else {
-    const catLabel = {general:'General',moderation:'Moderation',config:'Config'};
-    searchResult.innerHTML = matches.slice(0,12).map(m => `
-      <div class="search-result-item" onclick="jumpTo('${m.cat}','${esc(m.cmd)}')">
-        <div class="sri-cmd">${highlight(m.cmd,q)}</div>
-        <div class="sri-desc">${highlight(m.desc,q)}</div>
-        <span class="sri-cat ${m.cat}">${catLabel[m.cat]||m.cat}</span>
-      </div>`).join('');
-  }
-  searchResult.style.display = 'block';
-});
-document.addEventListener('click', e => {
-  if (!e.target.closest('.search-wrap')&&!e.target.closest('#searchResults')) searchResult.style.display='none';
-});
-function highlight(text,q){
-  if(!q) return esc(text);
-  const re=new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`,'gi');
-  return esc(text).replace(re,'<mark>$1</mark>');
-}
-function jumpTo(cat,cmd){
-  searchResult.style.display='none'; searchInput.value=''; searchCount.style.display='none';
-  showPage('docs', document.querySelector('.nav-link.blue'));
-  setTimeout(()=>{
-    const section=document.getElementById(cat);
-    if(section) section.scrollIntoView({behavior:'smooth',block:'start'});
-    setTimeout(()=>{
-      document.querySelectorAll('#page-docs .command-item').forEach(item=>{
-        if((item.dataset.cmd||'').toLowerCase()===cmd.toLowerCase()){
-          item.style.outline='3px solid #ffb6c1'; item.style.outlineOffset='3px';
-          setTimeout(()=>{item.style.outline='';item.style.outlineOffset='';},1800);
-        }
-      });
-    },400);
-  },100);
-}
-
-// ── COUNT BADGES ──
-function updateCounts(){
-  ['general','moderation','config'].forEach(cat=>{
-    const count=document.querySelectorAll(`#list-${cat} .command-item`).length;
-    const el=document.getElementById(`count-${cat}`);
-    if(el) el.textContent=count+' commands';
-  });
-}
-function updateAdminCounts(){
-  ['general','moderation','config'].forEach(cat=>{
-    const count=document.querySelectorAll(`#list-${cat} .command-item`).length;
-    const el=document.getElementById(`admin-count-${cat}`);
-    if(el) el.textContent=count;
-  });
-  const total=['general','moderation','config'].reduce((a,cat)=>a+document.querySelectorAll(`#list-${cat} .command-item`).length,0);
-  const tel=document.getElementById('admin-count-total');
-  if(tel) tel.textContent=total;
-}
-updateCounts();
-
-// ── ADD COMMAND ──
-function addCommand(){
-  const cmd  = document.getElementById('newCmd').value.trim();
-  const cat  = document.getElementById('newCat').value;
-  const desc = document.getElementById('newDesc').value.trim();
-  if(!cmd){showToast('⚠️ Enter a command name!');return}
-  if(!desc){showToast('⚠️ Enter a description!');return}
-  if(document.querySelector(`#page-docs .command-item[data-cmd="${cmd.toLowerCase()}"]`)){showToast('⚠️ Command already exists!');return}
-  const item=document.createElement('div');
-  item.className='command-item';
-  item.dataset.cmd=cmd.toLowerCase();
-  item.dataset.cat=cat;
-  item.dataset.custom='true';
-  item.innerHTML=`<div class="command-trigger">${esc(cmd)}</div><div class="command-desc">${esc(desc)}</div>`;
-  document.getElementById(`list-${cat}`).appendChild(item);
-  updateCounts(); updateAdminCounts(); renderTable();
-  document.getElementById('newCmd').value='';
-  document.getElementById('newDesc').value='';
-  showToast('✦ Command added to docs!');
-}
-
-// ── DELETE COMMAND ──
-function deleteCommandByName(cmd){
-  const item=document.querySelector(`#page-docs .command-item[data-cmd="${cmd}"]`);
-  if(!item){showToast('Cannot delete built-in commands.');return}
-  if(!item.dataset.custom){showToast('⚠️ Only custom commands can be deleted.');return}
-  item.style.transform='scale(0.9)'; item.style.opacity='0';
-  setTimeout(()=>{item.remove();updateCounts();updateAdminCounts();renderTable();},200);
-  showToast('🗑 Command removed.');
-}
-
-// ── CLEAR CUSTOM ──
-function clearCustomCmds(){
-  const custom=document.querySelectorAll('#page-docs .command-item[data-custom="true"]');
-  if(custom.length===0){showToast('No custom commands to clear.');return}
-  custom.forEach(el=>el.remove());
-  updateCounts(); updateAdminCounts(); renderTable();
-  showToast('🗑 All custom commands cleared.');
-}
-
-// ── ADMIN TABLE ──
-function renderTable(){
-  const filter=document.getElementById('adminFilter')?.value||'all';
-  const tbody=document.getElementById('adminTableBody');
-  if(!tbody) return;
-  const items=document.querySelectorAll('#page-docs .command-item');
-  const catLabel={general:'General',moderation:'Moderation',config:'Config'};
-  let rows='';
-  items.forEach(item=>{
-    const cmd=item.dataset.cmd||'';
-    const cat=item.dataset.cat||'';
-    const isCustom=item.dataset.custom==='true';
-    const desc=item.querySelector('.command-desc')?.textContent||'';
-    if(filter!=='all'&&filter!=='custom'&&cat!==filter) return;
-    if(filter==='custom'&&!isCustom) return;
-    const delBtn=isCustom?`<button class="row-del" onclick="deleteCommandByName('${esc(cmd)}')">✕</button>`:'—';
-    const typeTag=isCustom?`<span class="custom-tag">Custom</span>`:`<span style="font-size:.75rem;color:var(--text-light);font-weight:600">Built-in</span>`;
-    rows+=`<tr>
-      <td>${esc(cmd)}</td>
-      <td style="color:var(--text-light);font-weight:500">${esc(desc)}</td>
-      <td><span class="cat-tag ${cat}">${catLabel[cat]||cat}</span></td>
-      <td>${typeTag}</td>
-      <td>${delBtn}</td>
-    </tr>`;
-  });
-  tbody.innerHTML=rows||'<tr><td colspan="5" style="text-align:center;color:var(--text-light);padding:20px">No commands found.</td></tr>';
-}
-
-// ── EXPORT ──
-function exportHTML(){
-  const clone=document.documentElement.cloneNode(true);
-  const adminPage=clone.querySelector('#page-admin');
-  if(adminPage) adminPage.remove();
-  const navAdmin=clone.querySelector('.nav-link.lav');
-  if(navAdmin) navAdmin.parentElement?.remove();
-  clone.querySelectorAll('.del-btn,.row-del').forEach(b=>b.remove());
-  clone.querySelectorAll('.command-item').forEach(el=>{el.style.outline='';el.style.outlineOffset='';el.style.transform='';el.style.opacity=''});
-  const html='<!DOCTYPE html>\n'+clone.outerHTML;
-  const blob=new Blob([html],{type:'text/html'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='shouffle-docs-export.html';
-  a.click();
-  showToast('⬇ Exported as shouffle-docs-export.html!');
-}
-
-// ── TOAST ──
-function showToast(msg){
-  const toast=document.getElementById('toast');
-  toast.textContent=msg;
-  toast.classList.add('show');
-  setTimeout(()=>toast.classList.remove('show'),2600);
-}
-
-// ── MOBILE ──
-function toggleSidebar(){
-  document.getElementById('sidebar').classList.toggle('open');
-}
-document.addEventListener('click',e=>{
-  const sidebar=document.getElementById('sidebar');
-  if(sidebar.classList.contains('open')&&!e.target.closest('#sidebar')&&!e.target.closest('.menu-toggle'))
-    sidebar.classList.remove('open');
-});
-
-// ── HELPERS ──
-function esc(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-</script>
 </body>
 </html>
