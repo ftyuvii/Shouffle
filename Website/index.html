@@ -3,438 +3,372 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mochi Bot ✨</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <title>Shouffle Bot Dashboard</title>
     <style>
         :root {
-            --bg-color: #fbf5f3;
-            --panel-bg: #ffffff;
-            --text-main: #6d5c6e;
-            --text-muted: #9c8c9e;
-            --pastel-pink: #ffd6e0;
-            --pastel-blue: #c1f0f6;
-            --pastel-purple: #dec0f1;
-            --pastel-yellow: #fef6c9;
-            --accent-pink: #ffafcc;
-            --border-radius: 24px;
+            --bg-main: #fffafb;
+            --bg-card: #ffffff;
+            --bg-accent: #fff0f3;
+            --text-main: #2d2527;
+            --text-muted: #8a7a7d;
+            --accent-soft: #ff85a2;
+            --accent-glow: rgba(255, 133, 162, 0.12);
+            --border-color: #f7e1e5;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            font-family: 'Quicksand', sans-serif;
-            background-color: var(--bg-color);
+            background-color: var(--bg-main);
             color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        body::before {
-            content: "☁️";
-            position: absolute;
-            top: 10%;
-            left: 5%;
-            font-size: 2rem;
-            opacity: 0.5;
-            animation: float 6s ease-in-out infinite alternate;
-        }
-
-        body::after {
-            content: "✨";
-            position: absolute;
-            bottom: 15%;
-            right: 8%;
-            font-size: 1.8rem;
-            opacity: 0.6;
-            animation: float 5s ease-in-out infinite alternate-reverse;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-15px); }
+            line-height: 1.5;
+            padding: 0;
         }
 
         .container {
-            width: 100%;
-            max-width: 1050px;
-            background: var(--panel-bg);
-            border: 4px solid var(--pastel-pink);
-            border-radius: var(--border-radius);
-            box-shadow: 0 12px 0px var(--pastel-pink);
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            overflow: hidden;
-            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 24px;
         }
 
-        .left-panel {
-            background-color: #fff9fb;
-            padding: 60px 45px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        header {
+            margin-bottom: 45px;
             text-align: center;
-            border-right: 4px dashed var(--pastel-pink);
-            position: relative;
         }
 
-        .bot-avatar-container {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .bot-avatar {
-            width: 160px;
-            height: 160px;
-            background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-purple));
+        .bot-logo {
+            width: 70px;
+            height: 70px;
+            background: var(--bg-card);
+            border: 2px solid var(--accent-soft);
             border-radius: 50%;
+            margin: 0 auto 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            box-shadow: inset 0 -8px 0 rgba(0,0,0,0.05);
-        }
-
-        .bot-face {
-            width: 90px;
-            height: 60px;
-            position: relative;
-        }
-
-        .eyes {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            position: absolute;
-            top: 15px;
-        }
-
-        .eye {
-            width: 14px;
-            height: 14px;
-            background-color: var(--text-main);
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .eye::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 4px;
-            height: 4px;
-            background: #fff;
-            border-radius: 50%;
-        }
-
-        .blush {
-            width: 16px;
-            height: 8px;
-            background-color: var(--accent-pink);
-            border-radius: 50%;
-            position: absolute;
-            top: 32px;
-            opacity: 0.7;
-        }
-
-        .blush.left { left: -6px; }
-        .blush.right { right: -6px; }
-
-        .mouth {
-            width: 14px;
-            height: 8px;
-            border: 3px solid var(--text-main);
-            border-top: none;
-            border-radius: 0 0 10px 10px;
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .bot-status {
-            position: absolute;
-            bottom: 5px;
-            right: 10px;
-            background: #fff;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 26px;
             font-weight: 700;
-            border: 2px solid var(--pastel-purple);
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            color: var(--accent-soft);
+            box-shadow: 0 4px 15px var(--accent-glow);
         }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #a3f7bf;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 6px #a3f7bf;
-        }
-
-        .bot-title {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 2.5rem;
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
             color: var(--text-main);
-            margin-bottom: 10px;
+            margin-bottom: 6px;
         }
 
-        .bot-tagline {
-            font-size: 1rem;
+        .subtitle {
             color: var(--text-muted);
-            margin-bottom: 35px;
-            max-width: 240px;
-            line-height: 1.4;
+            font-size: 0.95rem;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
-        .button-group {
+        /* Navigation Tabs */
+        .nav-tabs {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            max-width: 220px;
-        }
-
-        .btn {
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            padding: 14px 24px;
-            border-radius: 16px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 20px;
+            border-radius: 20px;
             cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
-        .btn-invite {
-            background-color: var(--pastel-pink);
+        .tab-btn:hover, .tab-btn.active {
             color: var(--text-main);
-            border: 3px solid var(--text-main);
-            box-shadow: 0 5px 0 var(--text-main);
+            border-color: var(--accent-soft);
+            background: var(--bg-accent);
         }
 
-        .btn-invite:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 0 var(--text-main);
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease forwards;
         }
 
-        .btn-invite:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 var(--text-main);
+        .content-section.active {
+            display: block;
         }
 
-        .btn-tutorial {
-            background-color: transparent;
-            color: var(--text-main);
-            border: 3px dashed var(--pastel-purple);
-        }
-
-        .btn-tutorial:hover {
-            background-color: #fbf7ff;
-            border-style: solid;
-        }
-
-        .right-panel {
-            padding: 60px 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .section-title {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1.4rem;
-            color: var(--text-main);
+            font-size: 1.25rem;
+            font-weight: 600;
             margin-bottom: 20px;
+            color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .letter-card {
-            background-color: var(--pastel-yellow);
-            border: 3px solid var(--text-main);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            position: relative;
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.02);
-            margin-bottom: 40px;
+        .section-title::before {
+            content: "";
+            width: 4px;
+            height: 16px;
+            background: var(--accent-soft);
+            border-radius: 2px;
+            display: inline-block;
         }
 
-        .letter-card::before {
-            content: "💌";
-            position: absolute;
-            top: -18px;
-            right: 25px;
-            font-size: 1.5rem;
-        }
-
-        .letter-text {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--text-main);
-            font-style: italic;
-        }
-
-        .letter-signature {
-            margin-top: 15px;
-            text-align: right;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-main);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .feature-item {
-            background: #fff;
-            border: 2px solid #f0e6ef;
-            padding: 16px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .feature-icon {
-            width: 40px;
-            height: 40px;
+        /* Group Architecture */
+        .command-group {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .command-group-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .command-group-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .command-grid {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
-        .f1 { background-color: #e8fccf; }
-        .f2 { background-color: #ffdfd3; }
-        .f3 { background-color: #dcf7fa; }
-        .f4 { background-color: #f3e7ff; }
-
-        .feature-info h4 {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 0.95rem;
-            margin-bottom: 2px;
+        .command-badge {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            font-family: monospace;
         }
 
-        .feature-info p {
+        /* Alias Box */
+        .alias-box {
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--border-color);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .alias-box span {
+            font-family: monospace;
+            color: var(--text-main);
+            background: var(--bg-accent);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 4px;
+        }
+
+        /* Privacy Layout */
+        .privacy-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .privacy-block {
+            margin-bottom: 20px;
+        }
+
+        .privacy-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .privacy-block h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .privacy-block p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            text-align: justify;
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
             font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        @media (max-width: 850px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-            .left-panel {
-                border-right: none;
-                border-bottom: 4px dashed var(--pastel-pink);
-                padding: 45px 30px;
-            }
-            .right-panel {
-                padding: 45px 30px;
-            }
+        @media (max-width: 600px) {
+            .container { padding: 30px 16px; }
+            .privacy-card { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="left-panel">
-            <div class="bot-avatar-container">
-                <div class="bot-avatar">
-                    <div class="bot-face">
-                        <div class="eyes">
-                            <div class="eye"></div>
-                            <div class="eye"></div>
-                        </div>
-                        <div class="blush left"></div>
-                        <div class="blush right"></div>
-                        <div class="mouth"></div>
-                    </div>
-                </div>
-                <div class="bot-status">
-                    <span class="status-dot"></span> active
-                </div>
-            </div>
+        <header>
+            <div class="bot-logo">@</div>
+            <h1>Shouffle</h1>
+            <p class="subtitle">A minimal, soft-aesthetic setup guide and commands overview for your server.</p>
+        </header>
 
-            <h1 class="bot-title">Mochi Bot</h1>
-            <p class="bot-tagline">A cozy, cute companion designed to bring joy and neat features to your virtual space.</p>
-
-            <div class="button-group">
-                <a href="#" class="btn btn-invite">Invite Mochi 🐾</a>
-                <a href="#" class="btn btn-tutorial" target="_blank">Tutorials (Drive) 📂</a>
-            </div>
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('commands')">Commands</button>
+            <button class="tab-btn" onclick="switchTab('privacy')">Privacy</button>
         </div>
 
-        <div class="right-panel">
-            <h2 class="section-title"><span>💝</span> From My Heart</h2>
-            <div class="letter-card">
-                <p class="letter-text">
-                    "Thank you so much for dropping by! I built Mochi to be a helpful, gentle presence in your server—something simple, clean, and reliable. Seeing people use what I create honestly makes my day. I hope Mochi brings a tiny spark of comfort and ease to your community every single day."
-                </p>
-                <div class="letter-signature">— Crafted with love by Me</div>
+        <!-- COMMANDS -->
+        <main id="commands" class="content-section active">
+            <h2 class="section-title">Documentation</h2>
+
+            <div class="command-group">
+                <div class="command-group-title">General Utility & Moderation</div>
+                <p class="command-group-desc">Everyday setup tools and member management commands.</p>
+                <div class="command-grid">
+                    <div class="command-badge">ping</div>
+                    <div class="command-badge">uptime</div>
+                    <div class="command-badge">userinfo</div>
+                    <div class="command-badge">serverinfo</div>
+                    <div class="command-badge">roleinfo</div>
+                    <div class="command-badge">membercount</div>
+                    <div class="command-badge">inviteinfo</div>
+                    <div class="command-badge">emojiinfo</div>
+                    <div class="command-badge">avatar</div>
+                    <div class="command-badge">banner</div>
+                    <div class="command-badge">8ball</div>
+                    <div class="command-badge">roll</div>
+                    <div class="command-badge">coinflip</div>
+                    <div class="command-badge">choose</div>
+                    <div class="command-badge">calculate</div>
+                    <div class="command-badge">say</div>
+                    <div class="command-badge">embed</div>
+                    <div class="command-badge">poll</div>
+                    <div class="command-badge">snipe</div>
+                    <div class="command-badge">steal</div>
+                    <div class="command-badge">afk</div>
+                    <div class="command-badge">afkremove</div>
+                    <div class="command-badge">stick</div>
+                    <div class="command-badge">stickremove</div>
+                    <div class="command-badge">autoresponder</div>
+                    <div class="command-badge">removeresponder</div>
+                    <div class="command-badge">listresponders</div>
+                    <div class="command-badge">gcreate</div>
+                    <div class="command-badge">gend</div>
+                    <div class="command-badge">greroll</div>
+                    <div class="command-badge">kick</div>
+                    <div class="command-badge">ban</div>
+                    <div class="command-badge">softban</div>
+                    <div class="command-badge">unban</div>
+                    <div class="command-badge">mute</div>
+                    <div class="command-badge">unmute</div>
+                    <div class="command-badge">deafen</div>
+                    <div class="command-badge">undeafen</div>
+                    <div class="command-badge">warn</div>
+                    <div class="command-badge">warns</div>
+                    <div class="command-badge">clearwarns</div>
+                    <div class="command-badge">purge</div>
+                    <div class="command-badge">slowmode</div>
+                    <div class="command-badge">nick</div>
+                    <div class="command-badge">lock</div>
+                    <div class="command-badge">unlock</div>
+                    <div class="command-badge">roleadd</div>
+                    <div class="command-badge">roleremove</div>
+                    <div class="command-badge">mediaonly</div>
+                    <div class="command-badge">unmediaonly</div>
+                </div>
+
+                <div class="alias-box">
+                    Aliases: <span>whois</span><span>ui</span><span>si</span><span>timeout</span><span>untimeout</span><span>rr</span>
+                </div>
             </div>
 
-            <h2 class="section-title"><span>🌟</span> Special Abilities</h2>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <div class="feature-icon f1">🌸</div>
-                    <div class="feature-info">
-                        <h4>Pure Aesthetic</h4>
-                        <p>Beautiful, minimalist design output.</p>
-                    </div>
+            <div class="command-group">
+                <div class="command-group-title">Server Setup & Systems</div>
+                <p class="command-group-desc">Configuration systems for custom logs, automated tickets, and greeting modules.</p>
+                <div class="command-grid">
+                    <div class="command-badge">ticketsetup</div>
+                    <div class="command-badge">ticketconfig</div>
+                    <div class="command-badge">ticketadd</div>
+                    <div class="command-badge">ticketremove</div>
+                    <div class="command-badge">ticketlist</div>
+                    <div class="command-badge">ticketclose</div>
+                    <div class="command-badge">welcomesetup</div>
+                    <div class="command-badge">welcomeconfig</div>
+                    <div class="command-badge">welcomechannel</div>
+                    <div class="command-badge">welcometest</div>
+                    <div class="command-badge">vcsetup</div>
+                    <div class="command-badge">vcpanel</div>
+                    <div class="command-badge">vcban</div>
+                    <div class="command-badge">botlogs enable</div>
+                    <div class="command-badge">botlogs disable</div>
+                    <div class="command-badge">reactionrole</div>
+                    <div class="command-badge">reactionroleconfig</div>
+                    <div class="command-badge">levelup setup</div>
+                   <div class="command-badge">levelup config</div>
                 </div>
-                <div class="feature-item">
-                    <div class="feature-icon f2">🎵</div>
-                    <div class="feature-info">
-                        <h4>Lo-Fi Tunes</h4>
-                        <p>Calm, cozy soundtracks 24/7.</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon f3">🛡️</div>
-                    <div class="feature-info">
-                        <h4>Soft Mod</h4>
-                        <p>Keeps your space clean and safe.</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon f4">🎈</div>
-                    <div class="feature-info">
-                        <h4>Mini Games</h4>
-                        <p>Cute, lighthearted daily activities.</p>
-                    </div>
                 </div>
             </div>
-        </div>
+        </main>
+
+        <!-- PRIVACY -->
+        <section id="privacy" class="content-section">
+            <h2 class="section-title">Privacy Policy</h2>
+            <div class="privacy-card">
+                <div class="privacy-block">
+                    <h3>Data Management</h3>
+                    <p>Shouffle processes core Discord metadata (IDs for users, roles, and guilds) to preserve custom module rules such as logging configurations, custom responses, and welcome channels. No external tracking logs or data records are created.</p>
+                </div>
+                <div class="privacy-block">
+                    <h3>Temporary Context</h3>
+                    <p>Dynamic event actions (such as tracking a recently deleted message block for the short-term use of <code>snipe</code>) run purely inside standard temporary caches and are discarded automatically.</p>
+                </div>
+                <div class="privacy-block">
+                    <h3>User Agency</h3>
+                    <p>Server managers hold absolute command. Deactivating active frameworks or utilizing commands like <code>botlogs disable</code> deletes related configurations immediately.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; Shouffle#8993 • All rights reserved</p>
+        </footer>
     </div>
 
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
 </body>
 </html>
