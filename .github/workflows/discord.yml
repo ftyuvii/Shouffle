@@ -8,47 +8,62 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Fetch Current GitHub Profile Picture
-        id: get_pfp
+      - name: Fetch Fresh GitHub Avatar
+        id: avatar
         run: |
-          # Real-time fresh avatar URL fetch karne ke liye API call
-          AVATAR_URL=$(curl -s "https://api.github.com/users/${{ github.actor }}" | jq -r '.avatar_url')
-          echo "pfp_url=$AVATAR_URL" >> $GITHUB_OUTPUT
+          AVATAR_URL=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/users/${{ github.actor }}" \
+            | jq -r '.avatar_url')
+
+          CACHE_BUSTED_URL="${AVATAR_URL}?v=$(date +%s)"
+
+          echo "avatar_url=$CACHE_BUSTED_URL" >> "$GITHUB_OUTPUT"
 
       - name: Send Discord Webhook
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          COMMIT_MSG: ${{ github.event.head_commit.message }}
-          COMMIT_URL: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           ACTOR: ${{ github.actor }}
           REPO: ${{ github.repository }}
           BRANCH: ${{ github.ref_name }}
-          AVATAR_URL: ${{ steps.get_pfp.outputs.pfp_url }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          COMMIT_URL: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+          AVATAR_URL: ${{ steps.avatar.outputs.avatar_url }}
 
         run: |
           payload=$(jq -n \
             --arg actor "$ACTOR" \
-            --arg avatar_url "$AVATAR_URL" \
-            --arg commit_msg "$COMMIT_MSG" \
-            --arg commit_url "$COMMIT_URL" \
             --arg repo "$REPO" \
             --arg branch "$BRANCH" \
+            --arg msg "$COMMIT_MSG" \
+            --arg url "$COMMIT_URL" \
+            --arg avatar "$AVATAR_URL" \
             '{
               embeds: [{
                 color: 16777215,
                 author: {
                   name: $actor,
-                  icon_url: $avatar_url,
-                  url: ("https://github.com/" + $actor)
+                  url: ("https://github.com/" + $actor),
+                  icon_url: $avatar
                 },
-                description: ("🌸 **New Commit in** `" + $repo + "` [" + $branch + "]\n\n" + $commit_msg + "\n\n✨ [View Commit](" + $commit_url + ")"),
+                title: "Commit Update",
+                description:
+                  ("[REPO] `" + $repo + "`\n" +
+                   "[BRANCH] `" + $branch + "`\n\n" +
+                   $msg + "\n\n" +
+                   "[View Commit](" + $url + ")"),
                 thumbnail: {
-                  url: $avatar_url
-                }
+                  url: $avatar
+                },
+                footer: {
+                  text: "GitHub Commit Notification"
+                },
+                timestamp: now | todate
               }]
             }')
 
-          curl -H "Content-Type: application/json" \
+          curl -s \
+            -H "Content-Type: application/json" \
             -X POST \
             -d "$payload" \
             "$DISCORD_WEBHOOK"
