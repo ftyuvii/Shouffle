@@ -3,371 +3,489 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shouffle Bot Dashboard</title>
+    <title>Shouffle Bot ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #fffafb;
-            --bg-card: #ffffff;
-            --bg-accent: #fff0f3;
-            --text-main: #2d2527;
-            --text-muted: #8a7a7d;
-            --accent-soft: #ff85a2;
-            --accent-glow: rgba(255, 133, 162, 0.12);
-            --border-color: #f7e1e5;
+            --bg-pastel: #FFF0F5;
+            --card-pink: #FFD1DC;
+            --card-blue: #D4F0FF;
+            --card-purple: #E8D7FF;
+            --card-yellow: #FFF5C3;
+            --card-green: #D5F9DE;
+            --text-main: #6C5B7B;
+            --text-dark: #4A3E56;
+            --white: #FFFFFF;
+            --accent-soft: #FFB7B2;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
+            font-family: 'Fredoka', sans-serif;
         }
 
         body {
-            background-color: var(--bg-main);
+            background-color: var(--bg-pastel);
             color: var(--text-main);
-            line-height: 1.5;
-            padding: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 50px 24px;
+        .sparkle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 183, 178, 0.2) 0%, transparent 20%),
+                radial-gradient(circle at 90% 10%, rgba(212, 240, 255, 0.3) 0%, transparent 20%),
+                radial-gradient(circle at 50% 80%, rgba(255, 245, 195, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(232, 215, 255, 0.2) 0%, transparent 20%);
         }
 
         header {
-            margin-bottom: 45px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            padding: 80px 20px 40px 20px;
+            position: relative;
         }
 
-        .bot-logo {
-            width: 70px;
-            height: 70px;
-            background: var(--bg-card);
-            border: 2px solid var(--accent-soft);
+        .bot-avatar {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, var(--card-pink), var(--card-purple));
             border-radius: 50%;
-            margin: 0 auto 16px;
+            box-shadow: 0 12px 0 var(--white), 0 16px 25px rgba(108, 91, 123, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--accent-soft);
-            box-shadow: 0 4px 15px var(--accent-glow);
+            font-size: 70px;
+            margin-bottom: 25px;
+            animation: float 4s ease-in-out infinite;
+            border: 5px solid var(--white);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
 
         h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-            color: var(--text-main);
-            margin-bottom: 6px;
+            font-size: 3.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0px var(--white);
+            letter-spacing: 1px;
         }
 
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 40px;
-        }
-
-        .tab-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
+        .developer-tag {
+            background-color: var(--white);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 1rem;
             font-weight: 500;
+            box-shadow: 0 4px 8px rgba(108, 91, 123, 0.08);
+            border: 2px dashed var(--card-pink);
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .developer-tag span {
+            color: #FF8B94;
+            font-weight: 700;
+        }
+
+        .nav-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 3px solid var(--text-dark);
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.2s ease;
+            box-shadow: 0 6px 0 var(--text-dark);
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .tab-btn:hover, .tab-btn.active {
-            color: var(--text-main);
-            border-color: var(--accent-soft);
-            background: var(--bg-accent);
+        .nav-btn:hover {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 var(--text-dark);
         }
 
-        /* Content Sections */
+        .nav-btn.active {
+            background-color: var(--card-pink);
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 var(--text-dark);
+        }
+
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px 100px 20px;
+        }
+
         .content-section {
             display: none;
-            animation: fadeIn 0.3s ease forwards;
+            animation: fadeIn 0.5s ease forwards;
         }
 
-        .content-section.active {
+        .content-section.active-section {
             display: block;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--text-main);
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            margin-bottom: 35px;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background-color: var(--card-yellow);
+            z-index: -1;
+            border-radius: 10px;
+        }
+
+        .policy-card {
+            background-color: var(--white);
+            border: 4px solid var(--text-dark);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 12px 0 rgba(108, 91, 123, 0.1);
+        }
+
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .policy-item {
+            padding: 25px;
+            border-radius: 20px;
+            border: 3px solid var(--text-dark);
+            box-shadow: 0 6px 0 var(--text-dark);
+        }
+
+        .item-pink { background-color: var(--card-pink); }
+        .item-blue { background-color: var(--card-blue); }
+        .item-purple { background-color: var(--card-purple); }
+        .item-yellow { background-color: var(--card-yellow); }
+        .item-green { background-color: var(--card-green); }
+
+        .policy-item h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .section-title::before {
-            content: "";
-            width: 4px;
-            height: 16px;
-            background: var(--accent-soft);
-            border-radius: 2px;
-            display: inline-block;
-        }
-
-        /* Group Architecture */
-        .command-group {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-
-        .command-group-title {
+        .policy-item p {
             font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 4px;
+            color: var(--text-dark);
+            font-weight: 500;
         }
 
-        .command-group-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 16px;
+        .category-container {
+            margin-bottom: 40px;
+            background-color: var(--white);
+            border: 4px solid var(--text-dark);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 12px 0 rgba(108, 91, 123, 0.1);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px dashed var(--text-main);
+        }
+
+        .category-badge {
+            font-size: 0.9rem;
+            padding: 5px 12px;
+            border-radius: 15px;
+            background-color: var(--text-dark);
+            color: var(--white);
+            font-weight: 600;
         }
 
         .command-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
         }
 
-        .command-badge {
-            background: var(--bg-main);
-            border: 1px solid var(--border-color);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: var(--text-main);
-            font-family: monospace;
-        }
-
-        /* Alias Box */
-        .alias-box {
-            margin-top: 16px;
-            padding-top: 14px;
-            border-top: 1px dashed var(--border-color);
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .alias-box span {
-            font-family: monospace;
-            color: var(--text-main);
-            background: var(--bg-accent);
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 4px;
-        }
-
-        /* Privacy Layout */
-        .privacy-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
-        }
-
-        .privacy-block {
-            margin-bottom: 20px;
-        }
-
-        .privacy-block:last-child {
-            margin-bottom: 0;
-        }
-
-        .privacy-block h3 {
-            font-size: 1rem;
+        .command-tag {
+            background-color: var(--bg-pastel);
+            border: 2px solid var(--text-dark);
+            padding: 10px 15px;
+            border-radius: 15px;
+            text-align: center;
             font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 6px;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            box-shadow: 0 4px 0 var(--text-dark);
+            transition: all 0.1s ease;
+            user-select: none;
         }
 
-        .privacy-block p {
-            color: var(--text-muted);
-            font-size: 0.88rem;
-            text-align: justify;
+        .command-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--text-dark);
+            background-color: var(--white);
         }
+
+        .category-blue .command-tag { background-color: var(--card-blue); }
+        .category-purple .command-tag { background-color: var(--card-purple); }
+        .category-yellow .command-tag { background-color: var(--card-yellow); }
 
         footer {
-            margin-top: 60px;
             text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            padding: 40px 20px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-main);
+            border-top: 3px dashed var(--card-pink);
+            background-color: var(--white);
+        }
+
+        .footer-heart {
+            color: #FF8B94;
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            20% { transform: scale(1.25); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.15); }
+            80% { transform: scale(1); }
+            100% { transform: scale(1); }
         }
 
         @media (max-width: 600px) {
-            .container { padding: 30px 16px; }
-            .privacy-card { padding: 20px; }
+            h1 { font-size: 2.5rem; }
+            .policy-card, .category-container { padding: 20px; }
+            .command-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+            .command-tag { font-size: 0.95rem; padding: 8px 12px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <div class="bot-logo">@</div>
-            <h1>Shouffle</h1>
-            <p class="subtitle">A minimal, soft-aesthetic setup guide and commands overview for your server.</p>
-        </header>
+    <div class="sparkle-bg"></div>
 
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab('commands')">Commands</button>
-            <button class="tab-btn" onclick="switchTab('privacy')">Privacy</button>
+    <header>
+        <div class="bot-avatar">🥞</div>
+        <h1>Shouffle</h1>
+        <div class="developer-tag">Created with love by <span>Yuvraj Ab</span></div>
+        
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="switchTab('commands', this)">✨ Commands</button>
+            <button class="nav-btn" onclick="switchTab('privacy', this)">🔒 Privacy Policy</button>
         </div>
+    </header>
 
-        <!-- COMMANDS -->
-        <main id="commands" class="content-section active">
-            <h2 class="section-title">Documentation</h2>
+    <main class="main-container">
 
-            <div class="command-group">
-                <div class="command-group-title">General Utility & Moderation</div>
-                <p class="command-group-desc">Everyday setup tools and member management commands.</p>
-                <div class="command-grid">
-                    <div class="command-badge">ping</div>
-                    <div class="command-badge">uptime</div>
-                    <div class="command-badge">userinfo</div>
-                    <div class="command-badge">serverinfo</div>
-                    <div class="command-badge">roleinfo</div>
-                    <div class="command-badge">membercount</div>
-                    <div class="command-badge">inviteinfo</div>
-                    <div class="command-badge">emojiinfo</div>
-                    <div class="command-badge">avatar</div>
-                    <div class="command-badge">banner</div>
-                    <div class="command-badge">8ball</div>
-                    <div class="command-badge">roll</div>
-                    <div class="command-badge">coinflip</div>
-                    <div class="command-badge">choose</div>
-                    <div class="command-badge">calculate</div>
-                    <div class="command-badge">say</div>
-                    <div class="command-badge">embed</div>
-                    <div class="command-badge">poll</div>
-                    <div class="command-badge">snipe</div>
-                    <div class="command-badge">steal</div>
-                    <div class="command-badge">afk</div>
-                    <div class="command-badge">afkremove</div>
-                    <div class="command-badge">stick</div>
-                    <div class="command-badge">stickremove</div>
-                    <div class="command-badge">autoresponder</div>
-                    <div class="command-badge">removeresponder</div>
-                    <div class="command-badge">listresponders</div>
-                    <div class="command-badge">gcreate</div>
-                    <div class="command-badge">gend</div>
-                    <div class="command-badge">greroll</div>
-                    <div class="command-badge">kick</div>
-                    <div class="command-badge">ban</div>
-                    <div class="command-badge">softban</div>
-                    <div class="command-badge">unban</div>
-                    <div class="command-badge">mute</div>
-                    <div class="command-badge">unmute</div>
-                    <div class="command-badge">deafen</div>
-                    <div class="command-badge">undeafen</div>
-                    <div class="command-badge">warn</div>
-                    <div class="command-badge">warns</div>
-                    <div class="command-badge">clearwarns</div>
-                    <div class="command-badge">purge</div>
-                    <div class="command-badge">slowmode</div>
-                    <div class="command-badge">nick</div>
-                    <div class="command-badge">lock</div>
-                    <div class="command-badge">unlock</div>
-                    <div class="command-badge">roleadd</div>
-                    <div class="command-badge">roleremove</div>
-                    <div class="command-badge">mediaonly</div>
-                    <div class="command-badge">unmediaonly</div>
+        <section id="commands-section" class="content-section active-section">
+            <h2 class="section-title">Command List</h2>
+
+            <div class="category-container category-blue">
+                <div class="category-header">
+                    <span>🌸 Regular Commands</span>
+                    <span class="category-badge">47 Commands</span>
                 </div>
-
-                <div class="alias-box">
-                    Aliases: <span>whois</span><span>ui</span><span>si</span><span>timeout</span><span>untimeout</span><span>rr</span>
+                <div class="command-grid">
+                    <div class="command-tag">ping</div>
+                    <div class="command-tag">uptime</div>
+                    <div class="command-tag">userinfo</div>
+                    <div class="command-tag">serverinfo</div>
+                    <div class="command-tag">roleinfo</div>
+                    <div class="command-tag">membercount</div>
+                    <div class="command-tag">inviteinfo</div>
+                    <div class="command-tag">emojiinfo</div>
+                    <div class="command-tag">avatar</div>
+                    <div class="command-tag">banner</div>
+                    <div class="command-tag">8ball</div>
+                    <div class="command-tag">roll</div>
+                    <div class="command-tag">coinflip</div>
+                    <div class="command-tag">choose</div>
+                    <div class="command-tag">calculate</div>
+                    <div class="command-tag">say</div>
+                    <div class="command-tag">embed</div>
+                    <div class="command-tag">poll</div>
+                    <div class="command-tag">snipe</div>
+                    <div class="command-tag">steal</div>
+                    <div class="command-tag">afk</div>
+                    <div class="command-tag">afkremove</div>
+                    <div class="command-tag">stick</div>
+                    <div class="command-tag">stickremove</div>
+                    <div class="command-tag">autoresponder</div>
+                    <div class="command-tag">removeresponder</div>
+                    <div class="command-tag">listresponders</div>
+                    <div class="command-tag">gcreate</div>
+                    <div class="command-tag">gend</div>
+                    <div class="command-tag">greroll</div>
+                    <div class="command-tag">kick</div>
+                    <div class="command-tag">ban</div>
+                    <div class="command-tag">softban</div>
+                    <div class="command-tag">unban</div>
+                    <div class="command-tag">mute</div>
+                    <div class="command-tag">unmute</div>
+                    <div class="command-tag">deafen</div>
+                    <div class="command-tag">undeafen</div>
+                    <div class="command-tag">warn</div>
+                    <div class="command-tag">warns</div>
+                    <div class="command-tag">clearwarns</div>
+                    <div class="command-tag">purge</div>
+                    <div class="command-tag">slowmode</div>
+                    <div class="command-tag">nick</div>
+                    <div class="command-tag">lock</div>
+                    <div class="command-tag">unlock</div>
+                    <div class="command-tag">hide</div>
+                    <div class="command-tag">unhide</div>
+                    <div class="command-tag">roleadd</div>
+                    <div class="command-tag">roleremove</div>
+                    <div class="command-tag">mediaonly</div>
+                    <div class="command-tag">unmediaonly</div>
+                    <div class="command-tag">invites</div>
+                    <div class="command-tag">resetinv</div>
+                    <div class="command-tag">banid</div>
+                    <div class="command-tag">massban</div>
+                    <div class="command-tag">strip</div>
+                    <div class="command-tag">announce</div>
+                    <div class="command-tag">move</div>
                 </div>
             </div>
 
-            <div class="command-group">
-                <div class="command-group-title">Server Setup & Systems</div>
-                <p class="command-group-desc">Configuration systems for custom logs, automated tickets, and greeting modules.</p>
-                <div class="command-grid">
-                    <div class="command-badge">ticketsetup</div>
-                    <div class="command-badge">ticketconfig</div>
-                    <div class="command-badge">ticketadd</div>
-                    <div class="command-badge">ticketremove</div>
-                    <div class="command-badge">ticketlist</div>
-                    <div class="command-badge">ticketclose</div>
-                    <div class="command-badge">welcomesetup</div>
-                    <div class="command-badge">welcomeconfig</div>
-                    <div class="command-badge">welcomechannel</div>
-                    <div class="command-badge">welcoetest</div>
-                    <div class="command-badge">vcsetup</div>
-                    <div class="command-badge">vcpanel</div>
-                    <div class="command-badge">vcban</div>
-                    <div class="command-badge">botlogs enable</div>
-                    <div class="command-badge">botlogs disable</div>
-                    <div class="command-badge">reactionrole</div>
-                    <div class="command-badge">reactionroleconfig</div>
-                    <div class="command-badge">levelup setup</div>
-                   <div class="command-badge">levelup config</div>
+            <div class="category-container category-purple">
+                <div class="category-header">
+                    <span>🛠️ Setup Commands</span>
+                    <span class="category-badge">15 Commands</span>
                 </div>
+                <div class="command-grid">
+                    <div class="command-tag">ticketsetup</div>
+                    <div class="command-tag">ticketconfig</div>
+                    <div class="command-tag">ticketadd</div>
+                    <div class="command-tag">ticketremove</div>
+                    <div class="command-tag">ticketlist</div>
+                    <div class="command-tag">ticketclose</div>
+                    <div class="command-tag">welcomesetup</div>
+                    <div class="command-tag">welcomeconfig</div>
+                    <div class="command-tag">welcomechannel</div>
+                    <div class="command-tag">welcometest</div>
+                    <div class="command-tag">vcsetup</div>
+                    <div class="command-tag">vcpanel</div>
+                    <div class="command-tag">vcban</div>
+                    <div class="command-tag">botlogs enable</div>
+                    <div class="command-tag">botlogs disable</div>
+                    <div class="command-tag">reactionrole</div>
+                    <div class="command-tag">reactionroleconfig</div>
                 </div>
             </div>
-        </main>
 
-        <!-- PRIVACY -->
-        <section id="privacy" class="content-section">
-            <h2 class="section-title">Privacy Policy</h2>
-            <div class="privacy-card">
-                <div class="privacy-block">
-                    <h3>Data Management</h3>
-                    <p>Shouffle processes core Discord metadata (IDs for users, roles, and guilds) to preserve custom module rules such as logging configurations, custom responses, and welcome channels. No external tracking logs or data records are created.</p>
+            <div class="category-container category-yellow">
+                <div class="category-header">
+                    <span>🛡️ Security Features</span>
+                    <span class="category-badge">1 Command</span>
                 </div>
-                <div class="privacy-block">
-                    <h3>Temporary Context</h3>
-                    <p>Dynamic event actions (such as tracking a recently deleted message block for the short-term use of <code>snipe</code>) run purely inside standard temporary caches and are discarded automatically.</p>
-                </div>
-                <div class="privacy-block">
-                    <h3>User Agency</h3>
-                    <p>Server managers hold absolute command. Deactivating active frameworks or utilizing commands like <code>botlogs disable</code> deletes related configurations immediately.</p>
+                <div class="command-grid">
+                    <div class="command-tag">security</div>
                 </div>
             </div>
         </section>
 
-        <footer>
-            <p>&copy; Shouffle#8993 • All rights reserved</p>
-        </footer>
-    </div>
-hii hello ?
+        <section id="privacy-section" class="content-section">
+            <h2 class="section-title">Privacy Policy</h2>
+            <div class="policy-card">
+                <div class="policy-grid">
+                    <div class="policy-item item-pink">
+                        <h3>💭 What We Collect</h3>
+                        <p>We only save basic details like server IDs, user IDs, and role names to make sure setups, tickets, and features work perfectly for you.</p>
+                    </div>
+                    <div class="policy-item item-blue">
+                        <h3>🧸 Why We Need It</h3>
+                        <p>To run active configurations, welcome announcements, custom automated responses, logging channels, and safety setups accurately.</p>
+                    </div>
+                    <div class="policy-item item-purple">
+                        <h3>🍰 Data Sharing</h3>
+                        <p>Your details are 100% private. We will never sell, distribute, or share any of your server settings or identity markers with outsiders.</p>
+                    </div>
+                    <div class="policy-item item-green">
+                        <h3>🧁 Data Removal</h3>
+                        <p>Want your data gone? Simple! Just remove Shouffle from your discord server, and all saved data wipes automatically.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 Shouffle Bot. Made with <span class="footer-heart">♥</span> by Yuvraj Ab. All rights reserved.</p>
+    </footer>
+
     <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+        function switchTab(tabName, buttonElement) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active-section');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabName + '-section').classList.add('active-section');
+            buttonElement.classList.add('active');
+            
+            window.scrollTo({ top: 300, behavior: 'smooth' });
         }
     </script>
 </body>
