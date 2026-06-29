@@ -1,91 +1,215 @@
-# 🌌 Shouffle
+<div align="center">
 
-> A premium, minimalist Discord administration engine engineered with `discord.py 2.x` and `aiosqlite`.
+# Shouffle
 
----
+### Advanced Discord Security & Moderation Bot
 
-## 🛠️ System Architecture
+A powerful Discord bot designed to help server administrators protect, manage, and automate their communities with a strong focus on security, moderation, and reliability.
 
-<table>
-<tr>
-<td width="50%">
+[Website](https://shouffle.vercel.app)
 
-### 🔒 Security & Protection
-<blockquote color="red">
-<strong>Password-Protected Layer</strong><br>
-Implements an extra verification barrier to guard high-clearance execution commands.
-</blockquote>
-<blockquote color="red">
-<strong>Guild Lockdown Controls</strong><br>
-Rapid-action utilities to freeze channel permissions or role modifications during emergencies.
-</blockquote>
-
-</td>
-<td width="50%">
-
-### ⚔️ Moderation Mechanics
-<blockquote color="orange">
-<strong>Enforcement Suite</strong><br>
-Fluid, error-safe execution of kicks, bans, soft-bans, mutes, and warning tracking.
-</blockquote>
-<blockquote color="orange">
-<strong>Audit Pipeline</strong><br>
-Granular logging layers tracking message mutations, deletions, and staff actions.
-</blockquote>
-
-</td>
-</tr>
-
-<tr>
-<td>
-
-### 🎫 Automated Workflows
-<blockquote color="purple">
-<strong>Interactive Support Tickets</strong><br>
-Automated generation of ephemeral support channels via persistent buttons or dropdowns.
-</blockquote>
-<blockquote color="purple">
-<strong>Staff Hub Operations</strong><br>
-Comprehensive controls for staff assignment, session locking, and archival transcripts.
-</blockquote>
-
-</td>
-<td>
-
-### ⚙️ Automation & Systems
-<blockquote color="blue">
-<strong>Onboarding Loops</strong><br>
-Personalized welcoming systems and immediate auto-role assignment on member join.
-</blockquote>
-<blockquote color="blue">
-<strong>Reaction Roles Engine</strong><br>
-Fully interactive UI components for painless, self-assigned member tracking.
-</blockquote>
-
-</td>
-</tr>
-
-<tr>
-<td colspan="2">
-
-### 🎡 Community Infrastructure
-<blockquote color="green">
-<strong>Dynamic Temp Voice (J2C)</strong> — "Join-to-Create" systems that generate temporary channels and purge them instantly once vacant.
-<br><br>
-<strong>Automated Giveaways</strong> — Time-accurate sweepstakes featuring entrance counters, background timers, and re-roll engines.
-<br><br>
-<strong>40+ Utility Modules</strong> — Massive catalog of metadata lookups, shortcuts, and info cards summing up to <strong>50–80 total commands</strong>.
-</blockquote>
-
-</td>
-</tr>
-</table>
+</div>
 
 ---
 
-## 🚀 Technical Requirements
+## Overview
 
-```yaml
-Runtime Environment : Python 3.10 or higher
-API Core Framework  : discord.py (Async Engine v2.x)
-Storage Subsystem   : aiosqlite (Asynchronous SQLite Driver)
+Shouffle is an all-in-one Discord bot built using Discord.py, focused on providing a secure and efficient server management experience.
+
+Rather than relying on multiple bots for moderation, security, logging, setup, and utility tasks, Shouffle brings everything together in a single solution.
+
+The project is actively developed with an emphasis on:
+
+- Security First Design
+- Clean User Experience
+- Reliable Moderation Tools
+- Modular Architecture
+- Performance & Stability
+- Easy Server Setup
+
+---
+
+## Core Features
+
+### Security System
+
+Protect your server against malicious actions and unauthorized changes.
+
+- Anti Nuke Protection
+- Security Monitoring
+- Role Protection
+- Channel Protection
+- Server Protection
+- Permission Validation
+- Staff Action Tracking
+- Automated Security Responses
+
+---
+
+### Moderation
+
+Comprehensive moderation tools for maintaining a healthy community.
+
+- Ban
+- Unban
+- Kick
+- Mute
+- Timeout
+- Warn
+- Purge
+- Nickname Management
+- Case Tracking
+- Moderation Logging
+
+---
+
+### Setup System
+
+Configure your server quickly without complex configuration files.
+
+- Welcome System
+- Logging Setup
+- Security Setup
+- Autorole Configuration
+- Channel Configuration
+- Server Configuration
+- Interactive Setup Commands
+
+---
+
+### Reaction Roles
+
+Allow members to assign roles themselves.
+
+- Multiple Role Panels
+- Persistent Role Storage
+- Easy Management
+- Reliable Role Assignment
+
+---
+
+### Logging
+
+Track important events happening inside your server.
+
+- Moderation Logs
+- Member Logs
+- Channel Logs
+- Role Logs
+- Security Logs
+- Server Event Logs
+
+---
+
+### Utility & General Features
+
+Additional tools designed to improve server management.
+
+- User Information
+- Server Information
+- Role Information
+- Channel Information
+- Helpful Utility Commands
+- Administrative Tools
+
+---
+
+## Technical Highlights
+
+### Architecture
+
+Shouffle follows a modular cog-based structure built with Discord.py.
+
+```text
+cogs/
+├── backgrounds.py
+├── botlogs.py
+├── core.py
+├── general.py
+├── moderation.py
+├── owner.py
+├── reactionrole.py
+├── security.py
+└── setup.py
+```
+
+### Built With
+
+- Python
+- Discord.py 2.x
+- Asyncio
+- Modular Cog Architecture
+
+---
+
+## Project Goals
+
+Shouffle is being developed with a long-term vision:
+
+- Reliable Security Systems
+- Fast Command Execution
+- Clean Internal Architecture
+- Maintainable Codebase
+- High Stability
+- Feature Rich Experience
+
+Future development will continue focusing on quality and reliability before unnecessary feature expansion.
+
+---
+
+## Roadmap
+
+### Completed
+
+- Security System
+- Moderation System
+- Setup Framework
+- Reaction Roles
+- Logging System
+- Utility Commands
+
+### In Progress
+
+- Internal Architecture Improvements
+- Performance Optimization
+- Configuration Management
+- Enhanced Security Layer
+
+### Planned
+
+- Dashboard Integration
+- Advanced Analytics
+- Backup & Restore System
+- Expanded Automation Features
+
+---
+
+## Philosophy
+
+Shouffle is built around a simple principle:
+
+> Security, moderation, and server management should be powerful without becoming complicated.
+
+---
+
+## Website
+
+https://shouffle.vercel.app
+
+---
+
+## Status
+
+Active Development
+
+This project is continuously maintained and improved with a focus on performance, security, and user experience.
+
+---
+
+<div align="center">
+
+Built with Discord.py
+
+Shouffle © 2026
+
+</div>
